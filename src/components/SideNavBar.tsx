@@ -1,12 +1,7 @@
-
 const SideNavBar = () => {
-
-
   return (
-    <div className='hidden md:block absolute bg-white h-screen pl-[2%] shadow-lg'>
+    <div className="hidden md:block absolute bg-white h-screen pl-[2%] shadow-lg"></div>
+  );
+};
 
-    </div>
-  )
-}
-
-export default SideNavBar
+export default SideNavBar;

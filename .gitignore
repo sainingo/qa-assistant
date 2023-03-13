@@ -24,4 +24,3 @@ dist-ssr
 *.sw?
 .yarn
 .env
-.yarn.lock
