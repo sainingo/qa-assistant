@@ -24,10 +24,11 @@ const DisplayPatientResult: React.FC<FunctionProps> = ({
   }, []);
 
   const handleRedirection = (id: number) => {
-    patientData.length = 0;
-    const result: any = ([] = patients.filter((data: any) => data.uuid === id));
+    // patientData.length = 0;
+    const result: [] = ([] = patients.filter((data: any) => data.uuid === id));
     if (patientData.length < 1) {
-      patientData.push(result as never);
+      // patientData.push(result as never);
+      patientData.push(...new Set(result));
     }
     navigate(`/patients/${id}`);
   };
