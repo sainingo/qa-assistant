@@ -17,6 +17,8 @@ const contextValue: AppContextType = {
         <Route path="/" element={<PatientSearch />} />
     </Routes>
     </Router>
+     {/* div below is for testing purposes */}
+     <div data-testid="app-context-value">{JSON.stringify(contextValue)}</div>
     </AppContext.Provider>
   );
 };

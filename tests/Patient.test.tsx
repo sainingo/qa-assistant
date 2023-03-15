@@ -1,12 +1,12 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Home from '../src/components/Home'
+import Patient from '../src/components/patientSearch/Patient'
 import { MemoryRouter as Router } from 'react-router-dom';
 // import fetch from "node-fetch";
 import { describe, it, assertType, expectTypeOf} from 'vitest'
 
 
-describe('Home component', () => {
+describe('Patient component', () => {
     const mockPatient = [
         {
             uuid: '1232332asasasa',
@@ -30,14 +30,14 @@ describe('Home component', () => {
     it('renders the Home component', () => {
         render(
             <Router>
-                <Home />
+                <Patient />
             </Router>
         )
     })
 
-    it('renders home snaptshot correctly', () => {
+    it('renders patient snaptshot correctly', () => {
         const result = render(<Router>
-            <Home />
+            <Patient />
         </Router>)
       expect(result).toMatchSnapshot()
     })

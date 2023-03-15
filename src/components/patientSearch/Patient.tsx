@@ -7,7 +7,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useNavigate } from 'react-router-dom'
 import { IoFilterSharp } from 'react-icons/io5'
 import Header from '../Header'
-import { searchPatient } from './patientSearch.resource.ts';
+import { searchPatient } from './PatientSearch.resource';
+
 
 
 interface Result {
