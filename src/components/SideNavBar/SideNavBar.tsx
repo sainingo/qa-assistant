@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import {AiOutlineInfoCircle} from 'react-icons/ai'
 import {BsPencilSquare} from 'react-icons/bs'
 import {FaWalking, FaRegCalendarAlt} from 'react-icons/fa'
 import {BiBandAid} from 'react-icons/bi'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { AppContext } from '../../context/AppContext'
 const SideNavBar = () => {
   let activeStyle = {
@@ -12,14 +12,19 @@ const SideNavBar = () => {
   };
 
   const { currentPatient } = useContext(AppContext)
+
+  const patientId = currentPatient.map((info: any = {}) => {
+    return info[0].uuid;
+  });
+
   return (
     <div className='hidden md:block absolute bg-white h-screen pl-[2%] shadow-lg'>
         <nav className='mt-20'>
             <ul className='flex flex-col gap-10 text-xl mr-2'>
-                <NavLink to='/patients/:id' style={({ isActive }) => isActive ? activeStyle : undefined}>
+                <NavLink to={`/patientInfo/${patientId}`} style={({ isActive }) => isActive ? activeStyle : undefined}>
                 <li className='py-2 px-4 flex gap-2 items-center hover:cursor-pointer hover:shadow-md'><AiOutlineInfoCircle /> Patients Info</li>
                 </NavLink>
-                <NavLink to="/patient/:id/orders" style={({ isActive }) => isActive ? activeStyle : undefined}>
+                <NavLink to={`/patient/${patientId}/orders`} style={({ isActive }) => isActive ? activeStyle : undefined}>
                 <li className='py-2 px-4 flex gap-2 items-center hover:cursor-pointer hover:shadow-md'><BsPencilSquare />Orders</li>
                 </NavLink>
                 <NavLink to="/visits" style={({ isActive }) => isActive ? activeStyle : undefined}>

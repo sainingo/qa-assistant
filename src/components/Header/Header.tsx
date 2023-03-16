@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom'
 import {MdLogout} from 'react-icons/md'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { useNavigate } from 'react-router-dom'
+import storage from '../../app/localStorage'
 
 const Header = () => {
   const navigate = useNavigate()
+
+  const {user} = storage.loadData()
   const handleLogout = async () => {
     try {
       await fetch('openmrs/ws/rest/v1/session', {
@@ -29,7 +32,7 @@ const Header = () => {
             <button className='text-3xl mr-4 md:hidden'><GiHamburgerMenu /></button>
             <nav className='hidden md:block md:mr-12'>
                 <ul className='md:flex items-center gap-20'>
-                    <li className='text-sm'>Logged in as <span className='uppercase'><strong>ADMIN</strong></span></li>
+                    <li className='text-sm'>Logged in as <span className='uppercase'><strong>{user.display}</strong></span></li>
                     <li onClick={handleLogout} className='text-lg flex gap-2 items-center hover:shadow-lg hover:bg-slate-300 p-2 rounded-sm cursor-pointer'><MdLogout />Log out</li>
                 </ul>
             </nav>

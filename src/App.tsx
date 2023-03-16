@@ -20,13 +20,14 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route element={<ProtectedRoutes />} />
-          <Route path="/patientInfo/:id" element={<PatientInformation />} />
-          <Route path="/" element={<PatientSearch />} />
-          <Route path="/patient/:id/orders" element={<Orders />} />
+            <Route path="/" element={<PatientSearch />} />
+            <Route path="/patientInfo/:id" element={<PatientInformation />} />
+            <Route path="/patient/:id/orders" element={<Orders />} />
+          {/* </Route> */}
         </Routes>
       </Router>
       {/* div below is for testing purposes */}
-      {/* <div data-testid="app-context-value">{JSON.stringify(contextValue)}</div> */}
+      {/* <div data-testId="app-context-value">{JSON.stringify(contextValue)}</div> */}
     </AppContext.Provider>
   );
 };

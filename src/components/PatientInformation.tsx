@@ -1,22 +1,18 @@
-// import { useContext, useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { AppContext } from '../context/AppContext'
-import { useState } from 'react';
-import Header from './Header';
-import SideNavBar from './SideNavBar';
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContext'
+import Header from './Header/Header';
+import SideNavBar from './SideNavBar/SideNavBar';
+
 
 const PatientInformation = () => {
-    // const { patientData } = useContext(AppContext)
- 
-    // console.log(patientData);
-    const [patientData, setPatientData] = useState([])
-    
+    const { currentPatient } = useContext(AppContext)
+
     return (
         <>
        <Header />
        <SideNavBar />
         <div className='bg-lightGray h-screen'>
-        {patientData.length <= 1 ? patientData.map((info: any = {}, index) => (
+        {currentPatient.length <= 1 ? currentPatient.map((info: any = {}, index) => (
             <>
             <div className='sm:w-[85%] mx-auto sm:flex pt-8 lg:ml-[20%] ' key={index}>
                 <div className='bg-hashBlue p-4 rounded sm:w-md '>
@@ -48,7 +44,6 @@ const PatientInformation = () => {
                                          </div>
                 </div>
             </div>
-          
             </>
         )) : (<p className='absolute ml-[15%]'>Go to search patient..</p>)}
         </div>
