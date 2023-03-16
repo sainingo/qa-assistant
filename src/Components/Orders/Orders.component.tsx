@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Header from "../Header";
-import SideNavBar from "../SideNavBar";
+import Header from "../Header/Header";
+import SideNavBar from "../SideNavBar/SideNavBar";
 import ActiveOrders from "./ActiveOrders";
 import VoidedOrders from "./VoidedOrders";
 
