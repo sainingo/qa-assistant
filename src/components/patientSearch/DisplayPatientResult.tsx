@@ -24,7 +24,7 @@ const DisplayPatientResult: React.FC<FunctionProps> = ({
       (data: any) => data.uuid === id
     ));
     currentPatient.push(result);
-    navigate(`/patients/${id}`);
+    navigate(`/patientInfo/${id}`);
   };
 
   const handleFilter = (filteredPatients: object[]) => {

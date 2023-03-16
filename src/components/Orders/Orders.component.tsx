@@ -5,7 +5,7 @@ import ActiveOrders from "./ActiveOrders";
 import VoidedOrders from "./VoidedOrders";
 
 function Orders() {
-  const [openTab, setOpenTab] = useState(1);
+  const [openTab, setOpenTab] = useState(0);
 
   const tabContent = [
     { tabName: "Active Orders", componentName: <ActiveOrders /> },
