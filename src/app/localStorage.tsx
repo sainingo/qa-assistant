@@ -8,8 +8,6 @@ class StoreData {
 
     loadData = () => JSON.parse(localStorage.getItem('userInformation')!) || {}
     removeData = (st:string)=>localStorage.removeItem(st)
-
-    // getData = (key: string) => this.data[key]
 }
 const storage = new StoreData()
 export default storage;
