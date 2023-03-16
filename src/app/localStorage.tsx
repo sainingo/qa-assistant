@@ -5,7 +5,8 @@ class StoreData {
     }
 
     saveInfo = (data: {[key: string]: any}) => localStorage.setItem('userInformation', JSON.stringify(data))
-    loadData = () => localStorage.getItem('userInformation') || {}
+
+    loadData = () => JSON.parse(localStorage.getItem('userInformation')!) || {}
     removeData = (st:string)=>localStorage.removeItem(st)
 }
 const storage = new StoreData()
