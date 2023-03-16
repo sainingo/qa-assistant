@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import Pagination from "../Pagination";
-import { Order } from "./Orders";
+import Pagination from "../patientSearch/Pagination";
 import {
   getUser,
   fetchActiveOrders,
@@ -10,6 +9,7 @@ import {
 import { ClipLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
+import { Order } from "./Orders";
 
 let newVoidOrders: Order[];
 

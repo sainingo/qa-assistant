@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import Pagination from "../Pagination";
+import Pagination from "../patientSearch/Pagination";
 import { Order } from "./Orders";
 import {
   fetchVoidedOrders,

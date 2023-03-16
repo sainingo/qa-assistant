@@ -44,11 +44,6 @@ const PatientSearch = () => {
           }
         localStorage.removeItem("Banner")
 
-        const userInformation = localStorage.getItem("authenticated")
-        if(userInformation !== "true"){
-            navigate('/login')
-        }
-
         },[])
 
     const handleSubmit =  async () => {
