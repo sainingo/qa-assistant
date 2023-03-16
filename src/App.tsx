@@ -5,6 +5,7 @@ import PatientSearch from "./components/patientSearch/Patient";
 import Orders from "./Components/Orders/Orders.component";
 import Login from "./components/authentication/Login";
 import ProtectedRoutes from "./components/authentication/ProtectedRoutes";
+import PatientInformation from "./components/PatientInformation";
 
 const App = () => {
   const [currentPatient] = useState<Object[]>([]);
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/" element={<PatientSearch />} />
           <Route path="/login" element={<Login />} />
           <Route element={<ProtectedRoutes />} />
+          <Route path="/patients/:id" element={<PatientInformation />} />
           <Route path="/patient/:id/orders" element={<Orders />} />
         </Routes>
       </Router>
