@@ -1,5 +1,5 @@
 import { Outlet } from "react-router"
-import Login from "./Login/Login"
+import Login from "./Login"
 
 const AuthenticateUser = () =>{
 const isAuthenticated = localStorage.getItem("authenticated")
