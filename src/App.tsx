@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppContext, AppContextType } from "./context/AppContext";
 import { useState } from "react";
 import PatientSearch from "./components/patientSearch/Patient";
-import Orders from "./Components/Orders/Orders.component";
+import Orders from "./components/Orders/Orders.component";
 import Login from "./components/authentication/Login";
 import ProtectedRoutes from "./components/authentication/ProtectedRoutes";
 
@@ -17,9 +17,9 @@ const App = () => {
     <AppContext.Provider value={contextValue}>
       <Router>
         <Routes>
-          <Route path="/" element={<PatientSearch />} />
           <Route path="/login" element={<Login />} />
           <Route element={<ProtectedRoutes />} />
+          <Route path="/" element={<PatientSearch />} />
           <Route path="/patient/:id/orders" element={<Orders />} />
         </Routes>
       </Router>

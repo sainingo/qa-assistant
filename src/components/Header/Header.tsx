@@ -1,4 +1,4 @@
-import logo from '../../../public/ampath-logo.jpeg'
+import logo from '../../public/AMPATH_Logo_Color.png'
 import { Link } from 'react-router-dom'
 import {MdLogout} from 'react-icons/md'
 import { GiHamburgerMenu } from 'react-icons/gi'
@@ -21,8 +21,8 @@ const Header = () => {
     }
   }
   return (
-    <div className='h-28'>
-         <header className='bg-white shadow-md flex justify-between items-center'>
+    <div className=''>
+         <header className='bg-white shadow-md p-2 flex justify-between items-center'>
             <span className='cursor-pointer ml-3'>
                 <Link to="/"><img src={logo} width={180} /></Link>
             </span>
