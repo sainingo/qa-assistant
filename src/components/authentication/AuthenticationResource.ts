@@ -19,8 +19,6 @@ try {
 if (body.authenticated) {
     storage.saveInfo(body);
     localStorage.setItem("authenticated",body.authenticated)
-    localStorage.setItem('Banner','true');
-    window.location.href = "/"
 }
 if(!body.authenticated) {
     response.error = 'Invalid username or password';
