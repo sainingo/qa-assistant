@@ -1,8 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import DisplayPatientResult from './DisplayPatientResult'
 import Pagination from './Pagination'
-// import { AppContext } from '../context/AppContext'
-import swal from 'sweetalert'
 import ClipLoader from "react-spinners/ClipLoader";
 import { useNavigate } from 'react-router-dom'
 import { IoFilterSharp } from 'react-icons/io5'
@@ -34,15 +32,15 @@ const PatientSearch = () => {
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
     useEffect(()=>{
-        const banner = localStorage.getItem("Banner")
-          if(banner!==null){
-            swal({
-              title:'Success!',
-              text:"Logged In",
-              icon:"success",
-          })
-          }
-        localStorage.removeItem("Banner")
+        // const banner = localStorage.getItem("Banner")
+        //   if(banner!==null){
+        //     swal({
+        //       title:'Success!',
+        //       text:"Logged In",
+        //       icon:"success",
+        //   })
+        //   }
+        // localStorage.removeItem("Banner")
 
         },[])
 

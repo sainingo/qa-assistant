@@ -12,6 +12,7 @@ const App = () => {
 
   const contextValue: AppContextType = {
     currentPatient,
+    BASE_URL: ''
   };
 
   return (
