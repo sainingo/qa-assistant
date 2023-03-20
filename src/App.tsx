@@ -19,11 +19,11 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route element={<ProtectedRoutes />} />
+          <Route element={<ProtectedRoutes />}>
             <Route path="/" element={<PatientSearch />} />
             <Route path="/patientInfo/:id" element={<PatientInformation />} />
             <Route path="/patient/:id/orders" element={<Orders />} />
-          {/* </Route> */}
+          </Route>
         </Routes>
       </Router>
       {/* div below is for testing purposes */}
