@@ -13,6 +13,11 @@ const Login = () => {
   const [isHidden, setIsHidden] = useState(false);
   const [customServer, setCustomServer] = useState("");
 
+  // set localstorage value
+  const setLocalStorage = (key: string, value: string): void => {
+    localStorage.setItem(key, value);
+  };
+
   const onChange = (e: { target: { name: any; value: any } }) => {
     SetFormData({ ...FormData, [e.target.name]: e.target.value });
   };
@@ -37,37 +42,35 @@ const Login = () => {
   };
 
   useEffect(() => {
-  
-    localStorage.setItem("selectedServerUrl", selectedServer);
+    setLocalStorage("selectedServerUrl", selectedServer);
   }, [selectedServer]);
 
   const handleChange = (e: { target: { value: any } }) => {
-     const value = e.target.value;
+    const value = e.target.value;
     if (value === "custom-server") {
-        setIsHidden(true);
-        setSelectedServer(value);
-        localStorage.setItem("selectedServerUrl", customServer);
-    }else {
-        setIsHidden(false);
-        setSelectedServer(value);
-        localStorage.setItem("selectedServerUrl", value);
+      setIsHidden(true);
+      setSelectedServer(value);
+      setLocalStorage("selectedServerUrl", customServer);
+    } else {
+      setIsHidden(false);
+      setSelectedServer(value);
+      setLocalStorage("selectedServerUrl", value);
     }
   };
 
-// enter key press
-const handleCustomUrlChange = (e: { target: { value: any } }) => {
+  // enter key press
+  const handleCustomUrlChange = (e: { target: { value: any } }) => {
     setCustomServer(e.target.value);
-}
+  };
 
-const handleKeyDown = (e: { key: string; }) => {
-    if (e.key === 'Enter') {
-        setSelectedServer(customServer);
-        localStorage.setItem("selectedServerUrl", customServer);
-        setIsHidden(false);
-        setCustomServer("");
+  const handleKeyDown = (e: { key: string }) => {
+    if (e.key === "Enter") {
+      setSelectedServer(customServer);
+      setLocalStorage("selectedServerUrl", customServer);
+      setIsHidden(false);
+      setCustomServer("");
     }
-}
-
+  };
 
   return (
     <section className="h-screen bg-gray-100 flex items-center ">
@@ -78,7 +81,7 @@ const handleKeyDown = (e: { key: string; }) => {
             <h3 className="p-2">OpenMRS server URL</h3>
             <select
               className="shadow  border rounded p-4 w-full outline-none"
-              value={selectedServer }
+              value={selectedServer}
               onChange={handleChange}
             >
               <option className="p-4" value="https://ngx.ampath.or.ke/amrs">
