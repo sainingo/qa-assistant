@@ -11,7 +11,8 @@ import {
 } from "vitest";
 import AuthenticationResource from "./AuthenticationResource";
 import { act } from "react-dom/test-utils";
-import { handlers } from "../../mocks/handlers";
+import { handlers } from "../../mocks/login.handler";
+import { MemoryRouter as Router } from "react-router-dom";
 import { setupServer } from "msw/node";
 
 // setup the mock server handler
@@ -31,7 +32,7 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
-  const { getByRole, getByPlaceholderText } = render(<Login />);
+  const { getByRole, getByPlaceholderText } = render(<Router><Login /></Router>);
   userNameField = getByPlaceholderText(/Username/i);
   passwordField = getByPlaceholderText(/Password/i);
   loginButton = getByRole("button", { name: "Log In" });

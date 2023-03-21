@@ -1,4 +1,4 @@
-const baseUrl = "/openmrs/ws/rest/v1";
+const baseUrl = "https://dev3.openmrs.org/openmrs/ws/rest/v1";
 
 export const mappingOrders = async (results: []) => {
   const orders = results?.map(

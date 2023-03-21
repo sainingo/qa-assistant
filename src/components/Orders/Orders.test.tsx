@@ -9,38 +9,14 @@ import { setupServer } from "msw/node";
 import { BrowserRouter } from "react-router-dom";
 import { describe, it, vi } from "vitest";
 import "whatwg-fetch";
+import { fetchActiveOrders,gettingPatientName,fetchVoidedOrders } from "../../mocks/orders.handler";
 import ActiveOrders from "./ActiveOrders";
 import { mockOrders, mockPatient, mockVoidOrder } from "./resource.mock";
 import VoidedOrders from "./VoidedOrders";
 
-const fetchActiveOrders = rest.get(
-  `/openmrs/ws/rest/v1/order`,
-  (req, res, ctx) => {
-    const patientUuid = req.url.searchParams.get("patient");
-    return res(ctx.status(200), ctx.json(mockOrders));
-  }
-);
-
-const fetchVoidedOrders = rest.get(
-  `/openmrs/ws/rest/v1/order`,
-  (req, res, ctx) => {
-    const patientUuid = req.url.searchParams.get("patient");
-    return res(ctx.status(200), ctx.json(mockVoidOrder));
-  }
-);
-
-const gettingPatientName = rest.get(
-  `/openmrs/ws/rest/v1/patient/:id`,
-  (req, res, ctx) => {
-    const { id } = req.params;
-    return res(ctx.status(200), ctx.json(mockPatient));
-  }
-);
-
 const restHandlers = [fetchActiveOrders, gettingPatientName, fetchVoidedOrders];
-
 const server = setupServer(...restHandlers);
-
+const BaseURL = `https://dev3.openmrs.org/openmrs/ws/rest/v1/order`
 beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
 afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
@@ -78,7 +54,7 @@ describe("Active Orders", () => {
 
   it("displays the text 'no orders found' when no orders are fetched", async () => {
     const fetchActiveOrders = server.use(
-      rest.get(`/openmrs/ws/rest/v1/order`, (req, res, ctx) => {
+      rest.get(`${BaseURL}`, (req, res, ctx) => {
         const patientUuid = req.url.searchParams.get("patient");
         return res(ctx.status(200), ctx.json([]));
       })
@@ -171,7 +147,7 @@ describe("Voided Orders", () => {
 
   it("displays the text 'no orders found' when no orders are fetched", async () => {
     const fetchVoidedOrders = server.use(
-      rest.get(`/openmrs/ws/rest/v1/order`, (req, res, ctx) => {
+      rest.get(`${BaseURL}`, (req, res, ctx) => {
         const patientUuid = req.url.searchParams.get("patient");
         return res(ctx.status(200), ctx.json([]));
       })
