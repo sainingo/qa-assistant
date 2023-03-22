@@ -18,7 +18,6 @@ const PatientSearch = () => {
   const [isTrue, setIsTrue] = useState<boolean>(false);
   const [searchedPatientsResult, setSearchedPatientsResult] = useState<[]>([]);
 
-
   const indexOfLastPatient = currentPage * patientsPerPage;
   const indexOfFirstPatients = indexOfLastPatient - patientsPerPage;
   const currentPatients = searchedPatientsResult.slice(
@@ -44,7 +43,7 @@ const PatientSearch = () => {
 
   return (
     <>
-      <Header />
+      <Header shouldRenderSearchLink={false} />
       <div className="bg-themeColor overflow-y-auto h-screen pt-10">
         <div className="w-[80%] mx-auto">
           <div className="w-[90%] mx-auto">
