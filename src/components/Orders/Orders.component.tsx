@@ -5,7 +5,7 @@ import ActiveOrders from "./ActiveOrders";
 import VoidedOrders from "./VoidedOrders";
 
 function Orders() {
-  const [openTab, setOpenTab] = useState(1);
+  const [openTab, setOpenTab] = useState(0);
 
   const tabContent = [
     { tabName: "Active Orders", componentName: <ActiveOrders /> },
@@ -19,7 +19,7 @@ function Orders() {
 
   return (
     <>
-      <Header />
+      <Header shouldRenderSearchLink={true} />
       <SideNavBar />
       <div className="">
         <ul className="ml-[25%] text-sm font-medium text-center text-gray-500 dark:text-gray-400 dark:border-gray-700 flex flex-wrap -mb-px md:w-[60%]">

@@ -4,5 +4,5 @@ export interface AppContextType {
 }
 
 export const AppContext = React.createContext<AppContextType>({
-  currentPatient: [],
+  currentPatient: []
 });

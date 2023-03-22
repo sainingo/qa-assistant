@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       colors: {
         hashBlue: '#487EB0',
-        lightGray:'#eeeded',
+        lightGray:'#EEEDED',
         themeColor: '#EEEDED',
         searchColor: '#F6F4F4',
         buttonColor: '#487EBO',
