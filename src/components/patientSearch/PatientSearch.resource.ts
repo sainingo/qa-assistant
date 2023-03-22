@@ -1,5 +1,8 @@
+import { BASE_URL } from "../../../config/Constant";
+
+
 export const searchPatient = async (query: string) => {
-  return fetch(`openmrs/ws/rest/v1/patient?q=${query}&v=default&limit=full`, {
+  return fetch(`${BASE_URL}openmrs/ws/rest/v1/patient?q=${query}&v=default&limit=full`, {
     method: "GET",
     redirect: "follow",
   })

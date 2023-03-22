@@ -63,7 +63,7 @@ function ActiveOrders() {
       }).then(async (willDelete) => {
         if (willDelete) {
           const response = await fetch(
-            `/openmrs/ws/rest/v1/order/${orderUuid}?!purge`,
+            `/ws/rest/v1/order/${orderUuid}?!purge`,
             {
               method: "DELETE",
             }
