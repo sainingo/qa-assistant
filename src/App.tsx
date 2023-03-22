@@ -8,6 +8,7 @@ import ProtectedRoutes from "./components/authentication/ProtectedRoutes";
 import PatientInformation from "./components/PatientInformation";
 import Home from "./components/Home/Home";
 import { CheckSession, DeleteSession } from "./components/ManageSession";
+import CsvUpload from "./components/csvUploads/CsvUpload";
 
 const App = () => {
   const [currentPatient] = useState<Object[]>([]);
@@ -34,6 +35,7 @@ const App = () => {
             <Route path="/patient-search" element={<PatientSearch />} />
             <Route path="/patientInfo/:id" element={<PatientInformation />} />
             <Route path="/patient/:id/orders" element={<Orders />} />
+            <Route path="/csv-uploads" element={<CsvUpload />}/>
           </Route>
         </Routes>
       </Router>
