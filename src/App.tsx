@@ -6,7 +6,7 @@ import Orders from "./components/Orders/Orders.component";
 import Login from "./components/authentication/Login";
 import ProtectedRoutes from "./components/authentication/ProtectedRoutes";
 import PatientInformation from "./components/PatientInformation";
-import Home from "./components/Home/Home";
+import Home from "./components/layout/Home";
 import { CheckSession, DeleteSession } from "./components/ManageSession";
 import DisplayPatientReport from "./components/RdeSync/DisplayPatientReport";
 import SearchPatientIdentifier from "./components/RdeSync/SearchPatientIdentifier";
@@ -17,15 +17,15 @@ const App = () => {
   const contextValue: AppContextType = {
     currentPatient,
   };
-  useEffect(() => {
-    const verifySession = setInterval(async () => {
-      const isSessionActive = await CheckSession()
-      if(isSessionActive ==='false' && window.location.pathname !=="/login"){
-        DeleteSession()
-      }
-    }, 30000);
-    return () => clearInterval(verifySession);
-  }, []);
+  // useEffect(() => {
+  //   const verifySession = setInterval(async () => {
+  //     const isSessionActive = await CheckSession()
+  //     if(isSessionActive ==='false' && window.location.pathname !=="/login"){
+  //       DeleteSession()
+  //     }
+  //   }, 30000);
+  //   return () => clearInterval(verifySession);
+  // }, []);
   return (
     <AppContext.Provider value={contextValue}>
       <Router>

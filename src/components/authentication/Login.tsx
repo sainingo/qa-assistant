@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Logo from "../../public/AMPATH_Logo_Color.png";
 import AuthenticationResource from "./AuthenticationResource";
-import ErrorToast from "../toasts/ErrorToast";
+import ErrorAlert from "../alerts/ErrorAlert";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,6 +23,7 @@ const Login = () => {
     } else {
       setIsLoading(false);
       navigate("/");
+      localStorage.setItem('authenticated', 'true');
     }
   };
 
@@ -99,7 +100,7 @@ const Login = () => {
                       fill="currentColor"
                     />
                   </svg>
-                  Validating auth credentials...
+                  Validating login credentials...
                 </button>
               ) : (
                 <button
@@ -110,7 +111,7 @@ const Login = () => {
                   Sign in
                 </button>
               )}
-              {isError ? <ErrorToast message={isError} /> : ""}
+              {isError ? <ErrorAlert message={isError} details="" /> : ""}
             </form>
           </div>
         </div>

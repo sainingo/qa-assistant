@@ -1,12 +1,11 @@
 import storage from "../../app/localStorage";
-import { BASE_URL } from "../../../config/Constant";
 
 const AuthenticationResource = async (username: string, password: string) => {
   let response = {
     error: "",
   };
   if (username.trim().length !== 0 && password.trim().length !== 0) {
-    const result = await fetch(BASE_URL + "openmrs/ws/rest/v1/session", {
+    const result = await fetch(`/ws/rest/v1/session`, {
       headers: {
         Authorization: "Basic " + btoa(username + ":" + password),
       },

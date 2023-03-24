@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
-import Header from "./Header/Header";
+import Header from "./layout/Header";
 import SideNavBar from "./SideNavBar/SideNavBar";
 
 const PatientInformation = () => {
