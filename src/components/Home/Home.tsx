@@ -16,10 +16,10 @@ const Home = () => {
       title: "Data Dump Upload",
     },
     {
-      path: "",
+      path: "/rde",
       src: "",
-      alt: "",
-      title: "",
+      alt: "RDE-Sync",
+      title: "RDE-Sync",
     },
     {
       path: "",
@@ -54,7 +54,7 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12 h-3/4 p-10 mt-2">
             {menuItems.map((menu, index) =>
-              menu.src ? (
+              menu.title ? (
                 <div className={cardStyle} key={index}>
                   <Link to={menu.path}>
                     <img

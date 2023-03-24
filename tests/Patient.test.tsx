@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Patient from '../src/components/patientSearch/Patient'
+import PatientSearch from '../src/components/patientSearch/Patient'
 import { MemoryRouter as Router } from 'react-router-dom';
 // import fetch from "node-fetch";
 import { describe, it, assertType, expectTypeOf} from 'vitest'
@@ -27,17 +27,17 @@ describe('Patient component', () => {
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
-    it('renders the Home component', () => {
+    it('renders the Patient Search component', () => {
         render(
             <Router>
-                <Patient />
+                <PatientSearch />
             </Router>
         )
     })
 
     it('renders patient snaptshot correctly', () => {
         const result = render(<Router>
-            <Patient />
+            <PatientSearch />
         </Router>)
       expect(result).toBeTruthy()
     })

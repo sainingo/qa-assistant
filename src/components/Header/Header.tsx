@@ -52,7 +52,7 @@ const Header = ({ shouldRenderSearchLink }: Props) => {
             <li className="text-sm">
               Logged in as{" "}
               <span className="uppercase">
-                <strong>{user.display}</strong>
+                <strong>{user&& user.display}</strong>
               </span>
             </li>
             <li
