@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Logo from "../../public/AMPATH_Logo_Color.png";
+import Logo from "../../public/ampath-logo.png";
 import AuthenticationResource from "./AuthenticationResource";
 import ErrorAlert from "../alerts/ErrorAlert";
 

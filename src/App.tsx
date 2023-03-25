@@ -10,6 +10,8 @@ import Home from "./components/layout/Home";
 import { CheckSession, DeleteSession } from "./components/ManageSession";
 import DisplayPatientReport from "./components/RdeSync/DisplayPatientReport";
 import SearchPatientIdentifier from "./components/RdeSync/SearchPatientIdentifier";
+import Moh731SyncQueueComponent from "./components/RdeSync/Moh731SyncQueue";
+import AddPatientComponent from "./components/RdeSync/AddPatients";
 
 const App = () => {
   const [currentPatient] = useState<Object[]>([]);
@@ -36,8 +38,8 @@ const App = () => {
             <Route path="/patient-search" element={<PatientSearch />} />
             <Route path="/patientInfo/:id" element={<PatientInformation />} />
             <Route path="/patient/:id/orders" element={<Orders />} />
-            <Route path = "/rde"element = {<DisplayPatientReport/>}/>
-            <Route path = "/rde-identifier" element = {<SearchPatientIdentifier/>}/>
+            <Route path = "/moh-731-sync" element = {<Moh731SyncQueueComponent/>}/>
+            <Route path = "/moh-731-sync/add-patients" element = {<AddPatientComponent/>}/>
           </Route>
         </Routes>
       </Router>

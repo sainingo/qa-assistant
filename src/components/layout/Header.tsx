@@ -1,4 +1,4 @@
-import logo from "../../public/AMPATH_Logo_Color.png";
+import logo from "../../public/ampath-logo.png";
 import { Link } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";

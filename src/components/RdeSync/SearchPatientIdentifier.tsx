@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Header from "../Header/Header";
 import { AiOutlineDelete } from "react-icons/ai";
 import storage from "../../app/localStorage";
 import { FaPlus } from "react-icons/fa";
+import Header from "../layout/Header";
 const SearchPatientIdentifier = () => {
   const [patientIdentifier, setPatientIdentifier] = useState({
     identifier: "",
