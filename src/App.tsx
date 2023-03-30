@@ -39,7 +39,7 @@ const App = () => {
             <Route path="/patientInfo/:id" element={<PatientInformation />} />
             <Route path="/patient/:id/orders" element={<Orders />} />
             <Route path = "/moh-731-sync" element = {<Moh731SyncQueueComponent/>}/>
-            <Route path = "/moh-731-sync/add-patients" element = {<AddPatientComponent/>}/>
+            <Route path = "/moh-731-sync/add-patients" element = {<SearchPatientIdentifier/>}/>
           </Route>
         </Routes>
       </Router>

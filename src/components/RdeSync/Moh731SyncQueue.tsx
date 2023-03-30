@@ -4,7 +4,10 @@ import { Patient } from "../../types/Patient";
 import { formatDate } from "../../utils/DateUtil";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
-import { fetchMoh731SyncQueue } from "./moh-731-sync.resource";
+import {
+  fetchMoh731SyncQueue,
+  processQueuedPatients,
+} from "./moh-731-sync.resource";
 
 const SearchBar: React.FC = () => {
   return (
@@ -108,6 +111,17 @@ const Breadcrumb = () => {
   );
 };
 
+const handleProcessPatient = (personId: number, reportingMonth: string) => {
+  const payload = {
+    userId: 45,
+    reportingMonth: reportingMonth,
+    patientIds: [personId],
+  };
+
+  const result = processQueuedPatients(payload);
+  console.log(result);
+};
+
 const Moh731SyncQueueComponent = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const navigate = useNavigate();
@@ -122,122 +136,134 @@ const Moh731SyncQueueComponent = () => {
 
   return (
     <>
-     <Header shouldRenderSearchLink={false} />
-     <div className="container m-auto">
-      <Breadcrumb />
-      <div className="p-4 relative overflow-x-auto shadow-md sm:rounded-lg">
-        <div className="flex items-center justify-between pb-4">
-          <SearchBar />
-          <div>
-            <button
-              type="button"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none"
-            >
-              Process All
-            </button>
-            <button
-              type="button"
-              className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none"
-            >
-              Freeze All
-            </button>
-            <button
-              type="button"
-              onClick={handleAddPatientsClick}
-              className="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none"
-            >
-              Add Patients
-            </button>
-          </div>
-        </div>
-
-        <table className="w-full text-sm text-left text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Patient Name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Gender
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Age
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Birthdate
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Location
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-3">
-                RTC Date
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Month
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Queue Status
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {patients.map((patient, index) => (
-              <tr
-                key={index}
-                className={
-                  index % 2 === 0 ? "bg-white border-b" : "border-b bg-gray-50"
-                }
+      <Header shouldRenderSearchLink={false} />
+      <div className="container m-auto">
+        <Breadcrumb />
+        <div className="p-4 relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="flex items-center justify-between pb-4">
+            <SearchBar />
+            <div>
+              <button
+                type="button"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none"
               >
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  {patient.person_id}
+                Process All
+              </button>
+              <button
+                type="button"
+                className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none"
+              >
+                Freeze All
+              </button>
+              <button
+                type="button"
+                onClick={handleAddPatientsClick}
+                className="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none"
+              >
+                Add Patients
+              </button>
+            </div>
+          </div>
+
+          <table className="w-full text-sm text-left text-gray-500">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Patient Name
                 </th>
-                <td className="px-6 py-4">{patient.gender}</td>
-                <td className="px-6 py-4">{patient.age}</td>
-                <td className="px-6 py-4">{formatDate(patient.birthdate)}</td>
-                <td className="px-6 py-4">{patient.clinic}</td>
-                <td className="px-6 py-4">{patient.status}</td>
-                <td className="px-6 py-4">{formatDate(patient.rtc_date)}</td>
-                <td className="px-6 py-4">
-                  {formatDate(patient.reporting_month)}
-                </td>
-                <td className="px-6 py-4">
-                  <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-green-400">
-                    {patient.queue_status}
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  {patient.queue_status === "QUEUED" ? (
-                    <button
-                      type="button"
-                      className="px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-                    >
-                      Process
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className="px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300"
-                    >
-                      Freeze
-                    </button>
-                  )}
-                </td>
+                <th scope="col" className="px-6 py-3">
+                  Gender
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Age
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Birthdate
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Location
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Live Status
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Frozen Status
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  RTC Date
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Month
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Queue Status
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Action
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {patients.map((patient, index) => (
+                <tr
+                  key={index}
+                  className={
+                    index % 2 === 0
+                      ? "bg-white border-b"
+                      : "border-b bg-gray-50"
+                  }
+                >
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                  >
+                    {patient.patient_name}
+                  </th>
+                  <td className="px-6 py-4">{patient.gender}</td>
+                  <td className="px-6 py-4">{patient.age}</td>
+                  <td className="px-6 py-4">{formatDate(patient.birthdate)}</td>
+                  <td className="px-6 py-4">{patient.clinic}</td>
+                  <td className="px-6 py-4">{patient.live_status}</td>
+                  <td className="px-6 py-4">{patient.frozen_status}</td>
+                  <td className="px-6 py-4">{formatDate(patient.rtc_date)}</td>
+                  <td className="px-6 py-4">
+                    {formatDate(patient.reporting_month)}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-green-400">
+                      {patient.queue_status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    {patient.queue_status === "QUEUED" ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleProcessPatient(
+                            patient.person_id,
+                            patient.reporting_month
+                          )
+                        }
+                        className="px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                      >
+                        Process
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300"
+                      >
+                        Freeze
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-    <Footer year={2023} />
+      <Footer year={2023} />
     </>
   );
 };
