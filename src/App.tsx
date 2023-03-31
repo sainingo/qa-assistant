@@ -8,10 +8,8 @@ import ProtectedRoutes from "./components/authentication/ProtectedRoutes";
 import PatientInformation from "./components/PatientInformation";
 import Home from "./components/layout/Home";
 import { CheckSession, DeleteSession } from "./components/ManageSession";
-import DisplayPatientReport from "./components/RdeSync/DisplayPatientReport";
-import SearchPatientIdentifier from "./components/RdeSync/SearchPatientIdentifier";
-import Moh731SyncQueueComponent from "./components/RdeSync/Moh731SyncQueue";
-import AddPatientComponent from "./components/RdeSync/AddPatients";
+import SearchPatientIdentifier from "./components/RdeSync/AddPatients.component";
+import Moh731SyncQueueComponent from "./components/RdeSync/Moh731Sync.component";
 
 const App = () => {
   const [currentPatient] = useState<Object[]>([]);

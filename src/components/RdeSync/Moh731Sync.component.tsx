@@ -7,7 +7,7 @@ import Header from "../layout/Header";
 import {
   fetchMoh731SyncQueue,
   processQueuedPatients,
-} from "./moh-731-sync.resource";
+} from "./Moh731Sync.resource";
 
 const SearchBar: React.FC = () => {
   return (

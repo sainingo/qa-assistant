@@ -3,6 +3,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import storage from "../../app/localStorage";
 import { FaPlus } from "react-icons/fa";
 import Header from "../layout/Header";
+import Footer from "../layout/Footer";
 const SearchPatientIdentifier = () => {
   const [patientIdentifier, setPatientIdentifier] = useState({
     identifier: "",
@@ -91,7 +92,7 @@ const SearchPatientIdentifier = () => {
     console.log(requestBody);
   };
   return (
-    <div>
+    <>
       <Header shouldRenderSearchLink={false} />
       <div className="grid gap-x-4 grid-cols-1 lg:grid-cols-2 justify-center w-11/12 mx-auto ">
         <div className="pl-10 md:px-32 lg:pl-10 xl:pl-24 2xl:pl-60 mt-10 shadow-lg pb-4">
@@ -165,7 +166,8 @@ const SearchPatientIdentifier = () => {
           </div>
         </div>
       </div>
-    </div>
+      <Footer year={2023} />
+    </>
   );
 };
 
