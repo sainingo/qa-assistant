@@ -5,21 +5,21 @@ const Home = () => {
   const menuItems = [
     {
       path: "/patient-search",
-      src: "src/public/search.png",
+      src: "src/assets/images/patient-search.png",
       alt: "patient search",
       title: "Patient Search",
     },
     {
       path: "",
-      src: "src/public/graph.jpeg",
+      src: "src/assets/images/data-dump.png",
       alt: "data dump",
       title: "Data Dump Upload",
     },
     {
-      path: "",
-      src: "",
-      alt: "",
-      title: "",
+      path: "/csv-uploads",
+      src: "src/assets/images/data-dump.png",
+      alt: "csv uploads",
+      title: "CSV Uploads",
     },
     {
       path: "",
@@ -52,9 +52,9 @@ const Home = () => {
           <div className="text-4xl text-center mt-6 font-bold text-blue-500">
             <h1>QA Assistant</h1>
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12 h-3/4 p-10 mt-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12 h-3/4 p-10 ">
             {menuItems.map((menu, index) =>
-              menu.src ? (
+              menu?.src ? (
                 <div className={cardStyle} key={index}>
                   <Link to={menu.path}>
                     <img

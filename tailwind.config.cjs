@@ -13,7 +13,8 @@ module.exports = {
         themeColor: '#EEEDED',
         searchColor: '#F6F4F4',
         buttonColor: '#487EBO',
-        tableHeader: '#D9D9D9'
+        tableHeader: '#D9D9D9',
+        btnColor: 'rgb(36, 35, 65)'
       }
     },
   },
