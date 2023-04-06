@@ -54,10 +54,10 @@ const CsvUpload = () => {
             toast.error('File does not contain the required columns');
             return reject();
           } else if (headers.includes('Lab Viral Load') && fileType !== 'VL')  {
-            toast.error('File selected is not a VL file');
+            toast.error('File selected is not a CD4 file');
             return reject();
           } else if (headers.includes('CD4_Count') && fileType !== 'CD4') {
-            toast.error('File selected is not a CD4 file');
+            toast.error('File selected is not a VL file');
             return reject();
           } else if(fileType === '') {
             toast.error('Please select the file type');
