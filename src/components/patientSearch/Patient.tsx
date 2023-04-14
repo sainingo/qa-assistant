@@ -4,7 +4,7 @@ import Pagination from "./Pagination";
 import ClipLoader from "react-spinners/ClipLoader";
 import { IoFilterSharp } from "react-icons/io5";
 import { searchPatient } from "./PatientSearch.resource";
-import Header from "../Header/Header";
+import Header from "../layout/Header";
 
 interface Result {
   newData: [];

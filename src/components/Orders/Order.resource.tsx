@@ -1,5 +1,3 @@
-const baseUrl = "https://dev3.openmrs.org/openmrs/ws/rest/v1";
-
 export const mappingOrders = async (results: []) => {
   const orders = results?.map(
     ({
@@ -29,7 +27,7 @@ export const mappingOrders = async (results: []) => {
 };
 
 export const fetchActiveOrders = async (uuid: any) => {
-  const response = await fetch(`${baseUrl}/order?patient=${uuid}&v=full`);
+  const response = await fetch(`/ws/rest/v1/order?patient=${uuid}&v=full`);
   const data = await response.json();
   const { results } = data;
   if (results) {
@@ -40,7 +38,7 @@ export const fetchActiveOrders = async (uuid: any) => {
 
 export const fetchVoidedOrders = async (uuid: any) => {
   const response = await fetch(
-    `${baseUrl}/order?patient=${uuid}&v=custom:(uuid,orderNumber,voided,concept,dateActivated,orderer,urgency)&includeVoided=true`
+    `/ws/rest/v1/order?patient=${uuid}&v=custom:(uuid,orderNumber,voided,concept,dateActivated,orderer,urgency)&includeVoided=true`
   );
   const data = await response.json();
   const { results } = data;
@@ -59,7 +57,7 @@ export function getUser() {
 }
 
 export const gettingPatientName = async (id: any) => {
-  const response = await fetch(`${baseUrl}/patient/${id}`);
+  const response = await fetch(`/ws/rest/v1/patient/${id}`);
   const data = await response.json();
   const patientName = data?.person?.display;
 
