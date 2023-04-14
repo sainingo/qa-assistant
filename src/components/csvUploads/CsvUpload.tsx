@@ -45,18 +45,19 @@ const CsvUpload = () => {
                 }, {})
               );
                 // Check if the file contains the columns "Lab Viral Load" or "CD4_Count"
+                console.log(headers.includes('\"CD4 abs\"'))
           let file_type = '';
           if (headers.includes('Lab Viral Load') && fileType === 'VL') {
             file_type = 'VL';
-          } else if (headers.includes('CD4_Count') && fileType === 'CD4') {
+          } else if (headers.includes('\"CD4 abs\"') && fileType === 'CD4') {
             file_type = 'CD4';
-          }  else if (!headers.includes('Lab Viral Load') && !headers.includes('CD4_Count')){
+          }  else if (!headers.includes('Lab Viral Load') && !headers.includes('\"CD4 abs\"')){
             toast.error('File does not contain the required columns');
             return reject();
           } else if (headers.includes('Lab Viral Load') && fileType !== 'VL')  {
             toast.error('File selected is not a CD4 file');
             return reject();
-          } else if (headers.includes('CD4_Count') && fileType !== 'CD4') {
+          } else if (headers.includes('\"CD4 abs\"') && fileType !== 'CD4') {
             toast.error('File selected is not a VL file');
             return reject();
           } else if(fileType === '') {

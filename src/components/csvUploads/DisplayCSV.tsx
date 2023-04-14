@@ -5,10 +5,11 @@ import {
   getCsvFiles,
   deleteCsvFile,
   syncCsvFile,
-  updateCsvFileStatus,
+  // updateCsvFileStatus,
 } from "./csv.resource";
 import { ToastContainer, toast } from "react-toastify";
 import swal from "sweetalert";
+import storage from "../../app/localStorage";
 
 const DisplayCSV = () => {
   const [data, setData] = useState([]);
@@ -22,10 +23,11 @@ const DisplayCSV = () => {
     data.length > 0 && data?.slice(indexOfFirstPatients, indexOfLastPatient);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const { user } = storage.loadData();
 
   useEffect(() => {
     const fetchCsvFiles = async () => {
-      const res = await getCsvFiles();
+      const res = await getCsvFiles(user.display);
       if (res) {
         const response = await res.json();
         setData(response);
@@ -111,21 +113,21 @@ const DisplayCSV = () => {
         toast.success(response.message);
         console.log(response);
         // update status
-        const status = {
-          status: "synced",
-          successful: result.total_records,
-          eid_file_upload_metadata_id: id,
-        };
+        // const status = {
+        //   status: "synced",
+        //   successful: result.total_records,
+        //   eid_file_upload_metadata_id: id,
+        // };
 
-        const updateStatus = await updateCsvFileStatus(status);
-        const updateStatusResponse = await updateStatus.json();
-        console.log(updateStatusResponse);
-        if (updateStatusResponse.affectedRows === 1) {
-          // toast.success('Status updated successfully');
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
-        }
+        // const updateStatus = await updateCsvFileStatus(status);
+        // const updateStatusResponse = await updateStatus.json();
+        // console.log(updateStatusResponse);
+        // if (updateStatusResponse.affectedRows === 1) {
+        //   // toast.success('Status updated successfully');
+        //   // setTimeout(() => {
+        //   //   window.location.reload();
+        //   // }, 3000);
+        // }
       }
     });
   };
@@ -159,7 +161,7 @@ const DisplayCSV = () => {
                       Total
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Already Synced
+                      Exists
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Failed

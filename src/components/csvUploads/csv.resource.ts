@@ -11,6 +11,7 @@ export interface UpdatedData {
     eid_file_upload_metadata_id: number,
 }
 
+
 const url = 'http://localhost:3000/api'
 
 
@@ -29,9 +30,19 @@ export const uploadCsvFile = async (data: CsvUploadData) => {
     return response
 }
 
-export const getCsvFiles = async () => {
+export const getCsvFiles = async (logged_user: string) => {
+  // const requestOptions: RequestInit = {
+  //   method: 'GET',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify({
+  //     logged_data: logged_user
+  //   })
+  // };
+
   try {
-    const response = await fetch(url+ '/csv/uploads');
+    const response = await fetch(url+ `/csv/uploads?logged_user=${logged_user}`);
     if(response.ok) {
        return response
     }
@@ -62,18 +73,18 @@ export const getCsvFiles = async () => {
   }
 
   // updated status
-  export const updateCsvFileStatus = async (params: UpdatedData) => {
-    const data = {
-      status: params.status,
-      successful: params.successful,
-      eid_file_upload_metadata_id: params.eid_file_upload_metadata_id
-    }
+  // export const updateCsvFileStatus = async (params: UpdatedData) => {
+  //   // const data = {
+  //   //   status: params.status,
+  //   //   successful: params.successful,
+  //   //   eid_file_upload_metadata_id: params.eid_file_upload_metadata_id
+  //   // }
 
-    const response = await fetch(url+ '/csv/update_status', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }
-    );
-    return response
-  }
+  //   const response = await fetch(url+ '/csv/update_status', {
+  //     method: 'PUT',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     // body: JSON.stringify(data),
+  //   }
+  //   );
+  //   return response
+  // }
