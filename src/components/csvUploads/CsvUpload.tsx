@@ -1,4 +1,4 @@
-import Header from "../Header/Header";
+
 import csv_image from "../../public/csv-icon.png";
 import { useState } from "react";
 import { CsvUploadData, uploadCsvFile } from "./csv.resource";
@@ -6,6 +6,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import storage from "../../app/localStorage";
 import DisplayCSV from "./DisplayCSV";
+import Header from "../layout/Header";
+import Footer from "../layout/Footer";
 
 const CsvUpload = () => {
   const [csvFile, setCsvFile] = useState(null);
@@ -112,11 +114,81 @@ const CsvUpload = () => {
     }
   };
 
+  const Breadcrumb = () => {
+    return (
+      <nav className="bg-themeColor flex px-5 py-3" aria-label="Breadcrumb">
+        <ol className="inline-flex items-center space-x-1 md:space-x-3">
+          <li className="inline-flex items-center">
+            <a
+              href="/"
+              className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
+            >
+              <svg
+                aria-hidden="true"
+                className="w-4 h-4 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+              </svg>
+              Home
+            </a>
+          </li>
+          <li>
+            <div className="flex items-center">
+              <svg
+                aria-hidden="true"
+                className="w-6 h-6 text-gray-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <a
+                href="/"
+                className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2"
+              >
+                lab-results-sync
+              </a>
+            </div>
+          </li>
+          <li aria-current="page">
+            <div className="flex items-center">
+              <svg
+                aria-hidden="true"
+                className="w-6 h-6 text-gray-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2">
+                csv-upload
+              </span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+    );
+  };
+
   return (
     <>
       <Header shouldRenderSearchLink={false} />
       <ToastContainer hideProgressBar={true} theme="colored" />
-      <div className="bg-themeColor h-screen">
+      <Breadcrumb />
+      <div className="bg-themeColor h-[90vh]">
         <div className="relative flex justify-center">
           <div className="text-white w-[70%] mt-10 md:flex p-4 gap-8 items-center rounded-lg shadow-lg bg-gray-500">
             <div className="flex justify-center">
@@ -137,7 +209,7 @@ const CsvUpload = () => {
                   Choose CSV type:
                 </label>
                 <select
-                  className="p-3 rounded-lg outline-none bg-themeColor text-black"
+                  className="p-3 outline-none bg-themeColor text-black"
                   value={fileType}
                   onChange={(e) => setFileType(e.target.value)}
                 >
@@ -156,7 +228,11 @@ const CsvUpload = () => {
           </div>
         </div>
         <DisplayCSV />
+        <div className="hidden md:block mt-9">
+        <Footer year={2023} />
+        </div>
       </div>
+
     </>
   );
 };

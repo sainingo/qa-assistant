@@ -1,4 +1,4 @@
-import logo from "../../public/AMPATH_Logo_Color.png";
+import logo from "../../public/ampath-logo.png";
 import { Link } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -52,7 +52,7 @@ const Header = ({ shouldRenderSearchLink }: Props) => {
             <li className="text-sm">
               Logged in as{" "}
               <span className="uppercase">
-                <strong>{user.display}</strong>
+                <strong>{user&& user.display}</strong>
               </span>
             </li>
             <li

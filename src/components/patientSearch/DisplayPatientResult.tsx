@@ -47,8 +47,8 @@ const DisplayPatientResult: React.FC<FunctionProps> = ({
             <strong>{searchedPatientsResult.length}</strong> Patients found
           </p>
           <div className="md:ml-32 relative overflow-x-auto shadow-md sm:rounded-lg md:w-[90%] md:mx-auto mt-8">
-            <table className=" lg:w-full mx-auto text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table className=" lg:w-full mx-auto text-sm text-left text-gray-500">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     Uuid No.
@@ -71,12 +71,12 @@ const DisplayPatientResult: React.FC<FunctionProps> = ({
                 {searchedPatientsResult.map((item: any = {}, index: number) => (
                   <tr
                     onClick={() => handleRedirection(item.person.uuid)}
-                    className="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-blue-400 hover:text-white hover:cursor-pointer"
+                    className="bg-white border-b hover:bg-blue-400 hover:text-white hover:cursor-pointer"
                     key={index}
                   >
                     <th
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
                     >
                       {index + 1}
                     </th>

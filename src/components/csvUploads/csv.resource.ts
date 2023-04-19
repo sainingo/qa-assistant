@@ -31,16 +31,6 @@ export const uploadCsvFile = async (data: CsvUploadData) => {
 }
 
 export const getCsvFiles = async (logged_user: string) => {
-  // const requestOptions: RequestInit = {
-  //   method: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify({
-  //     logged_data: logged_user
-  //   })
-  // };
-
   try {
     const response = await fetch(url+ `/csv/uploads?logged_user=${logged_user}`);
     if(response.ok) {
@@ -72,19 +62,10 @@ export const getCsvFiles = async (logged_user: string) => {
     return response
   }
 
-  // updated status
-  // export const updateCsvFileStatus = async (params: UpdatedData) => {
-  //   // const data = {
-  //   //   status: params.status,
-  //   //   successful: params.successful,
-  //   //   eid_file_upload_metadata_id: params.eid_file_upload_metadata_id
-  //   // }
-
-  //   const response = await fetch(url+ '/csv/update_status', {
-  //     method: 'PUT',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     // body: JSON.stringify(data),
-  //   }
-  //   );
-  //   return response
-  // }
+ // fetch error logs
+  export const getErrorLogs = async (fileName: string) => {
+    const response = await fetch(url+ `/csv/logs?file_name=${fileName}`);
+    if(response.ok) {
+       return response
+    }
+  }

@@ -2,7 +2,7 @@ export const CheckSession = async ()=>{
     let response = {
         isAuthenticated:''
     }
-    const result = await fetch('openmrs/ws/rest/v1/session', {
+    const result = await fetch('/ws/rest/v1/session', {
     method: 'GET',
     redirect: 'follow',
     });
@@ -20,7 +20,7 @@ return response.isAuthenticated
 }
 
 export const DeleteSession = async()=>{
-    await fetch('openmrs/ws/rest/v1/session', {
+    await fetch('/ws/rest/v1/session', {
     method: 'DELETE',
     })
     .then(() => {

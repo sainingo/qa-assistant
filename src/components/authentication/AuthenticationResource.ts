@@ -1,5 +1,4 @@
 import storage from "../../app/localStorage";
-import { BASE_URL } from "../../../config/Constant";
 
 const AuthenticationResource = async (username: string, password: string) => {
   let response = {
