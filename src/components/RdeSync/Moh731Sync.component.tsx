@@ -9,34 +9,54 @@ import {
   processQueuedPatients,
 } from "./Moh731Sync.resource";
 
-const SearchBar: React.FC = () => {
+interface searchProps {
+  handleSearch: any;
+  handleClick: any;
+  searchTerm: string;
+}
+
+const SearchBar: React.FC<searchProps> = ({
+  handleSearch,
+  handleClick,
+  searchTerm,
+}) => {
   return (
     <>
       <label htmlFor="table-search" className="sr-only">
         Search
       </label>
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <svg
-            className="w-5 h-5 text-gray-500"
-            aria-hidden="true"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
+      <div className="flex flex-wrap items-center">
+        <div className="relative flex-grow">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg
+              className="w-5 h-5 text-gray-500"
+              aria-hidden="true"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <input
+            type="text"
+            id="table-search"
+            className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Search for patients"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
         </div>
-        <input
-          type="text"
-          id="table-search"
-          className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="Search for items"
-        />
+        <button
+          className="bg-red-500 border border-gray-300 rounded-lg ml-2 px-4 py-2 text-sm text-gray-700 hover:bg-red-400 sm:mt-2 lg:mt-0"
+          onClick={handleClick}
+        >
+          Reset Search
+        </button>
       </div>
     </>
   );
@@ -124,15 +144,33 @@ const handleProcessPatient = (personId: number, reportingMonth: string) => {
 
 const Moh731SyncQueueComponent = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
+  const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
+  const [searchItem, setSearchItem] = useState("");
+
   const navigate = useNavigate();
 
   const handleAddPatientsClick = () => {
     navigate("/moh-731-sync/add-patients");
   };
 
+  const handleChange = (e: any) => {
+    setSearchItem(e.target.value);
+  };
+
+  const handleResetSearch = () => {
+    setSearchItem("");
+  };
+
   useEffect(() => {
     fetchMoh731SyncQueue().then(setPatients);
-  }, []);
+
+    const filtered = patients.filter((patient) =>
+      patient.patient_name.toLowerCase().includes(searchItem.toLowerCase())
+    );
+    setFilteredPatients(filtered);
+  }, [searchItem]);
+
+  const data = searchItem ? filteredPatients : patients;
 
   return (
     <>
@@ -141,7 +179,11 @@ const Moh731SyncQueueComponent = () => {
         <Breadcrumb />
         <div className="p-4 relative overflow-x-auto shadow-md sm:rounded-lg">
           <div className="flex items-center justify-between pb-4">
-            <SearchBar />
+            <SearchBar
+              handleSearch={handleChange}
+              handleClick={handleResetSearch}
+              searchTerm={searchItem}
+            />
             <div>
               <button
                 type="button"
@@ -204,7 +246,7 @@ const Moh731SyncQueueComponent = () => {
               </tr>
             </thead>
             <tbody>
-              {patients.map((patient, index) => (
+              {data.map((patient, index) => (
                 <tr
                   key={index}
                   className={
