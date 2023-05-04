@@ -105,7 +105,7 @@ const CsvUpload = () => {
         toast.success(response.message);
         setTimeout(() => {
           window.location.reload();
-        }, 6000);
+        }, 4000);
       } else {
         toast.error(response.error);
       }

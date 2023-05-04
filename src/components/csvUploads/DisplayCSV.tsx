@@ -173,23 +173,9 @@ const DisplayCSV = () => {
           return newStates;
         });
         toast.success(response.message);
-        console.log(response);
-        // update status
-        // const status = {
-        //   status: "synced",
-        //   successful: result.total_records,
-        //   eid_file_upload_metadata_id: id,
-        // };
-
-        // const updateStatus = await updateCsvFileStatus(status);
-        // const updateStatusResponse = await updateStatus.json();
-        // console.log(updateStatusResponse);
-        // if (updateStatusResponse.affectedRows === 1) {
-        //   // toast.success('Status updated successfully');
-        //   // setTimeout(() => {
-        //   //   window.location.reload();
-        //   // }, 3000);
-        // }
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       }
     });
   };
