@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import storage from "../../app/localStorage";
 import { FaPlus } from "react-icons/fa";
@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { queuePatients, setReportingMonth } from "./AddPatients.resource";
 import ErrorToast from "../toasts/ErrorToast";
 import SuccessToast from "../toasts/SuccessToast";
-
-let reportingMonth: string;
 
 const AddPatientIdentifier = () => {
   const [patientIdentifier, setPatientIdentifier] = useState({
@@ -81,7 +79,7 @@ const AddPatientIdentifier = () => {
   };
 
   const handleSubmit = async () => {
-    reportingMonth = await setReportingMonth();
+    const reportingMonth = await setReportingMonth();
 
     const { user } = storage.loadData();
     const userId = user.uuid;
@@ -204,5 +202,4 @@ const AddPatientIdentifier = () => {
   );
 };
 
-export { reportingMonth };
 export default AddPatientIdentifier;

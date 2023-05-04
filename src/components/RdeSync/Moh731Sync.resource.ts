@@ -1,11 +1,14 @@
 import storage from "../../app/localStorage";
 import { Patient } from "../../types/Patient";
 import { ProcessQueuePayload } from "../../types/Payloads";
-import { reportingMonth } from "./AddPatients.component";
 
-export const fetchMoh731SyncQueue = async (): Promise<Patient[]> => {
+export const fetchMoh731SyncQueue = async (
+  month: string
+): Promise<Patient[]> => {
   const { user } = storage.loadData();
   const userId = user.uuid;
+
+  const reportingMonth = getReportingMonth(month);
 
   const response = await fetch(
     `/api/rde-sync/queue-patientlist?user_id=${userId}&reporting_month=${reportingMonth}`
@@ -13,6 +16,16 @@ export const fetchMoh731SyncQueue = async (): Promise<Patient[]> => {
   const data = await response.json();
   return data;
 };
+
+function getReportingMonth(yearMonth: string) {
+  const [year, month] = yearMonth.split("-");
+  const date = new Date(parseInt(year), parseInt(month), 0); // 0 sets date to last day of previous month
+  const lastDayOfMonth = date.getDate();
+  const isoString = `${year}-${month
+    .toString()
+    .padStart(2, "0")}-${lastDayOfMonth.toString().padStart(2, "0")}`;
+  return isoString;
+}
 
 export const processQueuedPatients = async (payload: ProcessQueuePayload) => {
   return fetch("/api/rde-sync/process-queue-patients", {
