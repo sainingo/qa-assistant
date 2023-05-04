@@ -6,8 +6,10 @@ import Footer from "../layout/Footer";
 import Header from "../layout/Header";
 import {
   fetchMoh731SyncQueue,
+  freezeProcessedPatients,
   processQueuedPatients,
 } from "./Moh731Sync.resource";
+import storage from "../../app/localStorage";
 
 interface searchProps {
   handleSearch: any;
@@ -173,6 +175,7 @@ const Moh731SyncQueueComponent = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
   const [searchItem, setSearchItem] = useState("");
+  const [frozenRows, setFrozenRows] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState("2020-01");
 
   const navigate = useNavigate();
@@ -191,6 +194,25 @@ const Moh731SyncQueueComponent = () => {
 
   const handleResetSearch = () => {
     setSearchItem("");
+  };
+
+  const handleFreezePatients = async (
+    personId: number,
+    reportingMonth: string,
+    index: number
+  ) => {
+    const { user } = storage.loadData();
+    const payload = {
+      userId: user?.uuid,
+      reportingMonth: reportingMonth,
+      patientIds: [personId],
+    };
+
+    const result = await freezeProcessedPatients(payload);
+
+    if (result === 201) {
+      setFrozenRows([...frozenRows, index]);
+    }
   };
 
   useEffect(() => {
@@ -328,7 +350,15 @@ const Moh731SyncQueueComponent = () => {
                     ) : (
                       <button
                         type="button"
-                        className="px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300"
+                        className="px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 disabled:opacity-50"
+                        onClick={() =>
+                          handleFreezePatients(
+                            patient.person_id,
+                            patient.reporting_month,
+                            index
+                          )
+                        }
+                        disabled={frozenRows.includes(index)}
                       >
                         Freeze
                       </button>

@@ -1,3 +1,4 @@
+import { response } from "msw";
 import storage from "../../app/localStorage";
 import { Patient } from "../../types/Patient";
 import { ProcessQueuePayload } from "../../types/Payloads";
@@ -46,5 +47,24 @@ export const processQueuedPatients = async (payload: ProcessQueuePayload) => {
     })
     .catch((error) => {
       console.error("Error:", error);
+    });
+};
+
+export const freezeProcessedPatients = async (payload: ProcessQueuePayload) => {
+  return fetch("/api/rde-sync/freeze", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.status;
+    })
+    .catch((error) => {
+      console.error("Error: ", error);
     });
 };
