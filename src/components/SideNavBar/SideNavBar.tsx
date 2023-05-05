@@ -37,7 +37,7 @@ const SideNavBar = () => {
             style={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             <li className="py-2 px-4 flex gap-2 items-center hover:cursor-pointer hover:shadow-md">
-              <AiOutlineInfoCircle /> Patients Info
+              <span ><AiOutlineInfoCircle /> </span>Patients Info
             </li>
           </NavLink>
           <NavLink
@@ -68,7 +68,7 @@ const SideNavBar = () => {
             </li>
           </NavLink>
           <NavLink
-            to="/observations"
+            to={`/observations/${patientId}`}
             style={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             <li className="py-2 px-4 flex gap-2 items-center hover:cursor-pointer hover:shadow-md">
