@@ -1,21 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import storage from "../../app/localStorage";
 import { FaPlus } from "react-icons/fa";
 import Header from "../layout/Header";
 import Footer from "../layout/Footer";
-const SearchPatientIdentifier = () => {
+import { useNavigate } from "react-router-dom";
+import { queuePatients, setReportingMonth } from "./AddPatients.resource";
+import ErrorToast from "../toasts/ErrorToast";
+import SuccessToast from "../toasts/SuccessToast";
+
+const AddPatientIdentifier = () => {
   const [patientIdentifier, setPatientIdentifier] = useState({
     identifier: "",
   });
+  const [identifiers, setIdentifiers] = useState<string[]>([]);
+  const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const navigate = useNavigate();
+
   const { identifier } = patientIdentifier;
+
   const onChange = (e: { target: { name: any; value: any } }) => {
     setPatientIdentifier({
       ...patientIdentifier,
       [e.target.name]: e.target.value,
     });
   };
-  const [identifierList, setIdentifierList] = useState<string[]>([]);
 
   const tabulateIdentifier = () => {
     const identifierInput = document.getElementById(
@@ -25,9 +36,9 @@ const SearchPatientIdentifier = () => {
       //remove duplicates
       const formatIdentifiers = new Set(identifier.split(","));
       const newIdentifiers = Array.from(formatIdentifiers).filter(
-        (id) => !identifierList.includes(id)
+        (id) => !identifiers.includes(id)
       );
-      setIdentifierList([...identifierList, ...newIdentifiers]);
+      setIdentifiers([...identifiers, ...newIdentifiers]);
       if (identifierInput) {
         identifierInput.value = "";
       }
@@ -35,6 +46,7 @@ const SearchPatientIdentifier = () => {
       return;
     }
   };
+
   const currentDate = new Date();
   //month options
   const monthOptions = [];
@@ -49,6 +61,7 @@ const SearchPatientIdentifier = () => {
       </option>
     );
   }
+
   // year options
   const yearOptions = [];
   const baseYear = 2020;
@@ -60,36 +73,30 @@ const SearchPatientIdentifier = () => {
       </option>
     );
   }
+
   const deleteIdentifier = (id: any) => {
-    setIdentifierList(identifierList.filter((existing) => existing !== id));
+    setIdentifiers(identifiers.filter((existing) => existing !== id));
   };
 
-  const handleSubmit = () => {
-    const selectedMonth = (
-      document.querySelector(".month-dropdown") as HTMLSelectElement
-    ).value;
-    const selectedYear = (
-      document.querySelector(".year-dropdown") as HTMLSelectElement
-    ).value;
-    const lastDayOfMonth = new Date(
-      parseInt(selectedYear),
-      parseInt(selectedMonth),
-      0
-    ).getDate();
-    //convert date to yyyy/mm/dd
-    const reporting_month = new Date(
-      `${selectedYear}-${selectedMonth}-${lastDayOfMonth}`
-    )
-      .toISOString()
-      .split("T")[0];
+  const handleSubmit = async () => {
+    const reportingMonth = await setReportingMonth();
+
     const { user } = storage.loadData();
-    const user_id = user.uuid;
+    const userId = user.uuid;
+
     const requestBody = JSON.stringify({
-      identifierList,
-      reporting_month,
-      user_id,
+      identifiers,
+      userId,
+      reportingMonth,
     });
-    console.log(requestBody);
+
+    const response = await queuePatients(requestBody);
+    if (response.ok) {
+      setIsSuccess(true);
+      setIdentifiers([]);
+    } else {
+      setIsError(true);
+    }
   };
   return (
     <>
@@ -139,7 +146,7 @@ const SearchPatientIdentifier = () => {
                 </tr>
               </thead>
               <tbody>
-                {identifierList.map((id, index) => (
+                {identifiers.map((id, index) => (
                   <tr key={index} className="bg-gray-100 hover:bg-gray-300 ">
                     <td className="px-4 py-2 text-center">{index + 1}</td>
                     <td className="px-4 py-2 text-center">{id}</td>
@@ -164,11 +171,35 @@ const SearchPatientIdentifier = () => {
               Submit
             </button>
           </div>
+          {isSuccess && (
+            <div className="pl-40 mt-4">
+              <SuccessToast
+                message="Identifiers have been added successfully"
+                handleOnClick={() => setIsSuccess(false)}
+              />
+            </div>
+          )}
+          {isError && (
+            <div className="pl-40 mt-4">
+              <ErrorToast
+                message="An error ocurred while adding identifiers, please try again"
+                handleOnClick={() => setIsError(false)}
+              />
+            </div>
+          )}
         </div>
+      </div>
+      <div className="grid justify-items-end mr-9 mt-5">
+        <button
+          className="bg-blue-500 text-white hover:bg-blue-600 hover:font-bold py-2 px-5 rounded-lg mr-5"
+          onClick={() => navigate("/moh-731-sync")}
+        >
+          Back to patient list
+        </button>
       </div>
       <Footer year={2023} />
     </>
   );
 };
 
-export default SearchPatientIdentifier;
+export default AddPatientIdentifier;
