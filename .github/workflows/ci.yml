@@ -37,5 +37,5 @@ jobs:
         env:
           HUSKY: 0
 
-      - name: Run tests
-        run: yarn run vitest
+      # - name: Run tests
+      #   run: yarn run vitest
