@@ -33,6 +33,7 @@ const DisplayCSV = () => {
   const [synced, setSynced] = useState(data.map(() => false));
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [logs, setLogs] = useState([]);
+  const [reloadState, setReloadState] = useState(false);
 
   const indexOfLastPatient = currentPage * dataPerPage;
   const indexOfFirstPatients = indexOfLastPatient - dataPerPage;
@@ -130,9 +131,10 @@ const DisplayCSV = () => {
           const response = await res.json();
           if (response.affectedRows === 1) {
             toast.success("File deleted successfully");
-            setTimeout(() => {
+            setReloadState(true);
+            if (reloadState) {
               window.location.reload();
-            }, 6000);
+            }
           } else {
             toast.error("Unable to delete file");
           }
@@ -173,9 +175,10 @@ const DisplayCSV = () => {
           return newStates;
         });
         toast.success(response.message);
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+        setReloadState(true);
+      }
+      if (reloadState) {
+        window.location.reload();
       }
     });
   };

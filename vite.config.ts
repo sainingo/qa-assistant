@@ -5,7 +5,12 @@ export default defineConfig({
   server: {
     proxy: {
       "/openmrs": {
-        target: "http://localhost:8089/",
+        target: "https://dev3.openmrs.org/openmrs",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/api": {
+        target: "http://localhost:3000/",
         changeOrigin: true,
         secure: false,
       },

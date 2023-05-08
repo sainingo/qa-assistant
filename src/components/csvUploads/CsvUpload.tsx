@@ -1,6 +1,5 @@
-
 import csv_image from "../../public/csv-icon.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CsvUploadData, uploadCsvFile } from "./csv.resource";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +11,7 @@ import Footer from "../layout/Footer";
 const CsvUpload = () => {
   const [csvFile, setCsvFile] = useState(null);
   const [fileType, setFileType] = useState("");
+  const [reloadState, setReloadState] = useState(false);
 
   const onChangeHandler = (e: any) => {
     const file = e.target.files?.[0];
@@ -26,7 +26,6 @@ const CsvUpload = () => {
     numRows: number;
     file_type: string;
   }
-
 
   function handleReadFile(file: any): Promise<CsvFileInfo> {
     return new Promise((resolve, reject) => {
@@ -46,33 +45,40 @@ const CsvUpload = () => {
                   return obj;
                 }, {})
               );
-                // Check if the file contains the columns "Lab Viral Load" or "CD4_Count"
-                console.log(headers.includes('\"CD4 abs\"'))
-          let file_type = '';
-          if (headers.includes('Lab Viral Load') && fileType === 'VL') {
-            file_type = 'VL';
-          } else if (headers.includes('\"CD4 abs\"') && fileType === 'CD4') {
-            file_type = 'CD4';
-          }  else if (!headers.includes('Lab Viral Load') && !headers.includes('\"CD4 abs\"')){
-            toast.error('File does not contain the required columns');
-            return reject();
-          } else if (headers.includes('Lab Viral Load') && fileType !== 'VL')  {
-            toast.error('File selected is not a CD4 file');
-            return reject();
-          } else if (headers.includes('\"CD4 abs\"') && fileType !== 'CD4') {
-            toast.error('File selected is not a VL file');
-            return reject();
-          } else if(fileType === '') {
-            toast.error('Please select the file type');
-            return reject();
-          }
-          else {
-            toast.error('File does not contain the required columns or file type is incorrect');
-            return reject();
-          }
+            // Check if the file contains the columns "Lab Viral Load" or "CD4_Count"
+            console.log(headers.includes('"CD4 abs"'));
+            let file_type = "";
+            if (headers.includes("Lab Viral Load") && fileType === "VL") {
+              file_type = "VL";
+            } else if (headers.includes('"CD4 abs"') && fileType === "CD4") {
+              file_type = "CD4";
+            } else if (
+              !headers.includes("Lab Viral Load") &&
+              !headers.includes('"CD4 abs"')
+            ) {
+              toast.error("File does not contain the required columns");
+              return reject();
+            } else if (
+              headers.includes("Lab Viral Load") &&
+              fileType !== "VL"
+            ) {
+              toast.error("File selected is not a CD4 file");
+              return reject();
+            } else if (headers.includes('"CD4 abs"') && fileType !== "CD4") {
+              toast.error("File selected is not a VL file");
+              return reject();
+            } else if (fileType === "") {
+              toast.error("Please select the file type");
+              return reject();
+            } else {
+              toast.error(
+                "File does not contain the required columns or file type is incorrect"
+              );
+              return reject();
+            }
 
-          // Resolve the Promise with the total number of records and the file type
-          resolve({ numRows: csvData.length, file_type });
+            // Resolve the Promise with the total number of records and the file type
+            resolve({ numRows: csvData.length, file_type });
           }
         };
         reader.onerror = reject;
@@ -86,7 +92,7 @@ const CsvUpload = () => {
 
   const onClickCsvUploadHandler = async () => {
     try {
-      const {numRows, file_type} = await handleReadFile(csvFile);
+      const { numRows, file_type } = await handleReadFile(csvFile);
 
       const data: CsvUploadData = {
         file: csvFile,
@@ -97,15 +103,12 @@ const CsvUpload = () => {
       setFileType("");
       const res = await uploadCsvFile(data);
       const response = await res.json();
-        console.log(response);
+      console.log(response);
 
       // use toast to display message
       if (response.status === "success") {
-        //set timeout to reload page
         toast.success(response.message);
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
+        setReloadState(true);
       } else {
         toast.error(response.error);
       }
@@ -113,6 +116,13 @@ const CsvUpload = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    //set timeout to reload page
+    if (reloadState) {
+      window.location.reload();
+    }
+  }, [reloadState]);
 
   const Breadcrumb = () => {
     return (
@@ -229,10 +239,9 @@ const CsvUpload = () => {
         </div>
         <DisplayCSV />
         <div className="hidden md:block mt-9">
-        <Footer year={2023} />
+          <Footer year={2023} />
         </div>
       </div>
-
     </>
   );
 };
