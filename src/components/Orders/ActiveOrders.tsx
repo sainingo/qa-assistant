@@ -1,22 +1,17 @@
-import { useEffect, useState } from "react";
-import Pagination from "../patientSearch/Pagination";
-import {
-  getUser,
-  fetchActiveOrders,
-  fetchVoidedOrders,
-  gettingPatientName,
-} from "./Order.resource";
-import { ClipLoader } from "react-spinners";
-import { useParams } from "react-router-dom";
-import swal from "sweetalert";
-import { Order } from "./Orders";
+import { useEffect, useState } from 'react';
+import Pagination from '../patientSearch/Pagination';
+import { getUser, fetchActiveOrders, fetchVoidedOrders, gettingPatientName } from './Order.resource';
+import { ClipLoader } from 'react-spinners';
+import { useParams } from 'react-router-dom';
+import swal from 'sweetalert';
+import { Order } from './Orders';
 
 let newVoidOrders: Order[];
 
 function ActiveOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [privileges, setPrivileges] = useState([]);
-  const [patientName, setPatientName] = useState("");
+  const [patientName, setPatientName] = useState('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [patientsPerPage] = useState<number>(5);
   const [Loading, isLoading] = useState(false);
@@ -48,60 +43,49 @@ function ActiveOrders() {
     fetchingResources();
   }, [setOrders]);
 
-  const handleVoidOrder = async (
-    orderUuid: string,
-    privileges: any,
-    userUuid: any
-  ) => {
-    const canDeleteOrders = privileges.find(
-      (privilege: { name: string }) => privilege.name === "Delete Orders"
-    );
+  const handleVoidOrder = async (orderUuid: string, privileges: any, userUuid: any) => {
+    const canDeleteOrders = privileges.find((privilege: { name: string }) => privilege.name === 'Delete Orders');
 
     if (canDeleteOrders) {
-      swal("Are you sure you want to void this order?", {
-        buttons: ["No", "Yes"],
+      swal('Are you sure you want to void this order?', {
+        buttons: ['No', 'Yes'],
       }).then(async (willDelete) => {
         if (willDelete) {
-          const response = await fetch(
-            `/ws/rest/v1/order/${orderUuid}?!purge`,
-            {
-              method: "DELETE",
-            }
-          ).then(async (response) => {
-            console.log("response when voiding", response);
+          const response = await fetch(`/ws/rest/v1/order/${orderUuid}?!purge`, {
+            method: 'DELETE',
+          }).then(async (response) => {
+            console.log('response when voiding', response);
 
             if (response.ok) {
-              swal("Order has been voided", {
-                icon: "success",
+              swal('Order has been voided', {
+                icon: 'success',
               });
 
-              const currentOrders = orders.filter(
-                (order) => order.orderUuid !== orderUuid
-              );
+              const currentOrders = orders.filter((order) => order.orderUuid !== orderUuid);
               setOrders(currentOrders);
 
               newVoidOrders = await fetchVoidedOrders(userUuid);
             } else if (response.status === 504) {
-              swal("Request is taking too long, try refreshing the page", {
-                icon: "error",
+              swal('Request is taking too long, try refreshing the page', {
+                icon: 'error',
               });
             } else {
-              swal("Unable to void order", {
-                icon: "error",
+              swal('Unable to void order', {
+                icon: 'error',
               });
             }
           });
         } else {
-          swal("Order has not been voided", {
-            icon: "info",
+          swal('Order has not been voided', {
+            icon: 'info',
           });
         }
       });
     } else {
       swal({
-        title: "User lacks privilege",
-        text: "Unathourized",
-        icon: "error",
+        title: 'User lacks privilege',
+        text: 'Unathourized',
+        icon: 'error',
       });
     }
   };
@@ -118,8 +102,7 @@ function ActiveOrders() {
             <>
               <div className="ml-[15%] ">
                 <h2 className="text-2xl text-center">
-                  Active Orders for{" "}
-                  <span className="font-bold text-blue-500">{patientName}</span>
+                  Active Orders for <span className="font-bold text-blue-500">{patientName}</span>
                 </h2>
                 <h2 className="p-4 ml-32 mb-2 mt-4">
                   {orders.length === 1 ? (
@@ -129,10 +112,7 @@ function ActiveOrders() {
                   )}
                 </h2>
                 <div className="md:ml-32 relative overflow-x-auto shadow-md sm:rounded-lg md:w-[90%] md:mx-auto mt-8">
-                  <table
-                    className=" lg:w-full mx-auto text-sm text-left"
-                    data-testid="orders-table"
-                  >
+                  <table className=" lg:w-full mx-auto text-sm text-left" data-testid="orders-table">
                     <thead className="text-gray-700 uppercase bg-gray-50">
                       <tr>
                         <th className="py-5 text-center">Order Number</th>
@@ -145,29 +125,16 @@ function ActiveOrders() {
                     </thead>
                     <tbody>
                       {currentOrders.map((order) => (
-                        <tr
-                          key={order.orderUuid}
-                          className="bg-white border-b hover:text-blue-500"
-                        >
-                          <td className="px-6 py-4 text-center">
-                            {order.orderNumber}
-                          </td>
+                        <tr key={order.orderUuid} className="bg-white border-b hover:text-blue-500">
+                          <td className="px-6 py-4 text-center">{order.orderNumber}</td>
                           <td className="text-left py-5">{order.order}</td>
-                          <td className="px-6 py-4 text-center">
-                            {order.date}
-                          </td>
-                          <td className="px-6 py-4 text-center">
-                            {order.orderer}
-                          </td>
-                          <td className="px-6 py-4 text-center">
-                            {order.urgency}
-                          </td>
+                          <td className="px-6 py-4 text-center">{order.date}</td>
+                          <td className="px-6 py-4 text-center">{order.orderer}</td>
+                          <td className="px-6 py-4 text-center">{order.urgency}</td>
                           <td className="px-6 py-4 text-center">
                             <button
                               className="bg-cyan-900 text-white hover:bg-cyan-700 font-bold py-2 m-4 px-4 rounded-sm"
-                              onClick={() =>
-                                handleVoidOrder(order.orderUuid, privileges, id)
-                              }
+                              onClick={() => handleVoidOrder(order.orderUuid, privileges, id)}
                             >
                               Void
                             </button>
@@ -177,11 +144,7 @@ function ActiveOrders() {
                     </tbody>
                   </table>
                 </div>
-                <Pagination
-                  patientsPerPage={patientsPerPage}
-                  totalPatients={orders.length}
-                  paginate={paginate}
-                />
+                <Pagination patientsPerPage={patientsPerPage} totalPatients={orders.length} paginate={paginate} />
               </div>
             </>
           ) : (

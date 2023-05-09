@@ -1,7 +1,7 @@
-import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
-import Header from "./layout/Header";
-import SideNavBar from "./SideNavBar/SideNavBar";
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
+import Header from './layout/Header';
+import SideNavBar from './SideNavBar/SideNavBar';
 
 const PatientInformation = () => {
   const { currentPatient } = useContext(AppContext);
@@ -14,20 +14,13 @@ const PatientInformation = () => {
         {currentPatient.length <= 1 ? (
           currentPatient.map((info: any = {}, index) => (
             <>
-              <div
-                className="sm:w-[85%] mx-auto sm:flex pt-8 lg:ml-[20%] "
-                key={index}
-              >
+              <div className="sm:w-[85%] mx-auto sm:flex pt-8 lg:ml-[20%] " key={index}>
                 <div className="bg-hashBlue p-4 rounded sm:w-md ">
                   <div className="bg-lightGray rounded-full mx-auto w-36 h-36 flex justify-center items-center">
-                    <h1 className="text-9xl font-bold ">
-                      {info[0].person.preferredName.display[0]}
-                    </h1>
+                    <h1 className="text-9xl font-bold ">{info[0].person.preferredName.display[0]}</h1>
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-center">
-                      {info[0].person.preferredName.display}
-                    </h3>
+                    <h3 className="font-bold text-white text-center">{info[0].person.preferredName.display}</h3>
                   </div>
                 </div>
                 <div
@@ -48,12 +41,7 @@ const PatientInformation = () => {
                   </div>
                   <div>
                     <b>Date of Birth</b>
-                    <p>
-                      {new Date(info[0]?.person.birthdate)
-                        .toLocaleString()
-                        .split(" ")[0]
-                        .slice(0, -1)}
-                    </p>
+                    <p>{new Date(info[0]?.person.birthdate).toLocaleString().split(' ')[0].slice(0, -1)}</p>
                   </div>
                 </div>
               </div>

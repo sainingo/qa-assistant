@@ -1,2 +1,2 @@
 // get url from localstorage
-export const BASE_URL ="https://dev3.openmrs.org/";
+export const BASE_URL = 'https://dev3.openmrs.org/';

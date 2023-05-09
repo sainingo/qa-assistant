@@ -1,38 +1,29 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 type FunctionProps = {
   handleFilter: (filteredPatients: object[]) => any;
   searchedPatientsResult: [];
 };
 
-const AdvanceFilters: React.FC<FunctionProps> = ({
-  handleFilter,
-  searchedPatientsResult,
-}) => {
-  const [selectedGender, setSelectedGender] = useState("M");
-  const [selectedAgeBracket, setSelectedAgeBracket] = useState("0-18");
+const AdvanceFilters: React.FC<FunctionProps> = ({ handleFilter, searchedPatientsResult }) => {
+  const [selectedGender, setSelectedGender] = useState('M');
+  const [selectedAgeBracket, setSelectedAgeBracket] = useState('0-18');
 
   const handleAgeBracket = () => {
     let ageBracket: Object[];
     if (selectedAgeBracket) {
-      if (selectedAgeBracket === "0-18") {
-        ageBracket = searchedPatientsResult.filter(
-          (item: any = {}) => item?.person.age <= 18
-        );
+      if (selectedAgeBracket === '0-18') {
+        ageBracket = searchedPatientsResult.filter((item: any = {}) => item?.person.age <= 18);
         return ageBracket;
       }
 
-      if (selectedAgeBracket === "18-36") {
-        ageBracket = searchedPatientsResult.filter(
-          (item: any = {}) => item?.person.age > 18 && item?.person.age <= 36
-        );
+      if (selectedAgeBracket === '18-36') {
+        ageBracket = searchedPatientsResult.filter((item: any = {}) => item?.person.age > 18 && item?.person.age <= 36);
         return ageBracket;
       }
 
-      if (selectedAgeBracket === "36 +") {
-        ageBracket = searchedPatientsResult.filter(
-          (item: any = {}) => item?.person.age > 36
-        );
+      if (selectedAgeBracket === '36 +') {
+        ageBracket = searchedPatientsResult.filter((item: any = {}) => item?.person.age > 36);
         return ageBracket;
       }
     }
@@ -41,9 +32,7 @@ const AdvanceFilters: React.FC<FunctionProps> = ({
 
   const handleGender = () => {
     if (selectedGender) {
-      const gender = searchedPatientsResult.filter(
-        (item: any = {}) => item?.person.gender === selectedGender
-      );
+      const gender = searchedPatientsResult.filter((item: any = {}) => item?.person.gender === selectedGender);
       return gender;
     }
   };
@@ -52,9 +41,7 @@ const AdvanceFilters: React.FC<FunctionProps> = ({
     const ageBracket = handleAgeBracket() ?? [];
     const gender = handleGender() ?? [];
 
-    const filteredData: object[] = ageBracket.filter((entry) =>
-      gender.includes(entry as never)
-    );
+    const filteredData: object[] = ageBracket.filter((entry) => gender.includes(entry as never));
     if (filteredData) {
       handleFilter(filteredData);
     } else {

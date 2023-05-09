@@ -1,15 +1,11 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Patient } from "../../types/Patient";
-import { formatDate } from "../../utils/DateUtil";
-import Footer from "../layout/Footer";
-import Header from "../layout/Header";
-import {
-  fetchMoh731SyncQueue,
-  freezeProcessedPatients,
-  processQueuedPatients,
-} from "./Moh731Sync.resource";
-import storage from "../../app/localStorage";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Patient } from '../../types/Patient';
+import { formatDate } from '../../utils/DateUtil';
+import Footer from '../layout/Footer';
+import Header from '../layout/Header';
+import { fetchMoh731SyncQueue, freezeProcessedPatients, processQueuedPatients } from './Moh731Sync.resource';
+import storage from '../../app/localStorage';
 
 interface searchProps {
   handleSearch: any;
@@ -17,11 +13,7 @@ interface searchProps {
   searchTerm: string;
 }
 
-const SearchBar: React.FC<searchProps> = ({
-  handleSearch,
-  handleClick,
-  searchTerm,
-}) => {
+const SearchBar: React.FC<searchProps> = ({ handleSearch, handleClick, searchTerm }) => {
   return (
     <>
       <label htmlFor="table-search" className="sr-only">
@@ -69,10 +61,7 @@ const Breadcrumb = () => {
     <nav className="flex px-5 py-3" aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 md:space-x-3">
         <li className="inline-flex items-center">
-          <a
-            href="/"
-            className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
-          >
+          <a href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
             <svg
               aria-hidden="true"
               className="w-4 h-4 mr-2"
@@ -100,10 +89,7 @@ const Breadcrumb = () => {
                 clipRule="evenodd"
               ></path>
             </svg>
-            <a
-              href="/"
-              className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2"
-            >
+            <a href="/" className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2">
               MOH 731 RDE Sync
             </a>
           </div>
@@ -123,9 +109,7 @@ const Breadcrumb = () => {
                 clipRule="evenodd"
               ></path>
             </svg>
-            <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2">
-              PatientList
-            </span>
+            <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2">PatientList</span>
           </div>
         </li>
       </ol>
@@ -138,10 +122,7 @@ interface calendarProps {
   handleMonthChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Calendar: React.FC<calendarProps> = ({
-  selectedMonth,
-  handleMonthChange,
-}) => {
+const Calendar: React.FC<calendarProps> = ({ selectedMonth, handleMonthChange }) => {
   return (
     <div className="flex items-center mt-2 mb-3 space-x-4">
       <label htmlFor="start" className="mb-2 font-bold text-gray-700">
@@ -174,9 +155,9 @@ const handleProcessPatient = (personId: number, reportingMonth: string) => {
 const Moh731SyncQueueComponent = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
-  const [searchItem, setSearchItem] = useState("");
+  const [searchItem, setSearchItem] = useState('');
   const [frozenRows, setFrozenRows] = useState<number[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState("2020-01");
+  const [selectedMonth, setSelectedMonth] = useState('2020-01');
 
   const navigate = useNavigate();
 
@@ -185,7 +166,7 @@ const Moh731SyncQueueComponent = () => {
   };
 
   const handleAddPatientsClick = () => {
-    navigate("/moh-731-sync/add-patients");
+    navigate('/moh-731-sync/add-patients');
   };
 
   const handleSearchChange = (e: any) => {
@@ -193,14 +174,10 @@ const Moh731SyncQueueComponent = () => {
   };
 
   const handleResetSearch = () => {
-    setSearchItem("");
+    setSearchItem('');
   };
 
-  const handleFreezePatients = async (
-    personId: number,
-    reportingMonth: string,
-    index: number
-  ) => {
+  const handleFreezePatients = async (personId: number, reportingMonth: string, index: number) => {
     const { user } = storage.loadData();
     const payload = {
       userId: user?.uuid,
@@ -219,7 +196,7 @@ const Moh731SyncQueueComponent = () => {
     fetchMoh731SyncQueue(selectedMonth).then(setPatients);
 
     const filtered = patients.filter((patient) =>
-      patient.patient_name.toLowerCase().includes(searchItem.toLowerCase())
+      patient.patient_name.toLowerCase().includes(searchItem.toLowerCase()),
     );
     setFilteredPatients(filtered);
   }, [searchItem, selectedMonth]);
@@ -233,11 +210,7 @@ const Moh731SyncQueueComponent = () => {
         <Breadcrumb />
         <div className="p-4 relative overflow-x-auto shadow-md sm:rounded-lg">
           <div className="flex items-center justify-between pb-4">
-            <SearchBar
-              handleSearch={handleSearchChange}
-              handleClick={handleResetSearch}
-              searchTerm={searchItem}
-            />
+            <SearchBar handleSearch={handleSearchChange} handleClick={handleResetSearch} searchTerm={searchItem} />
             <div>
               <button
                 type="button"
@@ -260,10 +233,7 @@ const Moh731SyncQueueComponent = () => {
               </button>
             </div>
           </div>
-          <Calendar
-            selectedMonth={selectedMonth}
-            handleMonthChange={handleMonthChange}
-          />
+          <Calendar selectedMonth={selectedMonth} handleMonthChange={handleMonthChange} />
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
@@ -304,18 +274,8 @@ const Moh731SyncQueueComponent = () => {
             </thead>
             <tbody>
               {data.map((patient, index) => (
-                <tr
-                  key={index}
-                  className={
-                    index % 2 === 0
-                      ? "bg-white border-b"
-                      : "border-b bg-gray-50"
-                  }
-                >
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                  >
+                <tr key={index} className={index % 2 === 0 ? 'bg-white border-b' : 'border-b bg-gray-50'}>
+                  <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {patient.patient_name}
                   </th>
                   <td className="px-6 py-4">{patient.gender}</td>
@@ -325,24 +285,17 @@ const Moh731SyncQueueComponent = () => {
                   <td className="px-6 py-4">{patient.live_status}</td>
                   <td className="px-6 py-4">{patient.frozen_status}</td>
                   <td className="px-6 py-4">{formatDate(patient.rtc_date)}</td>
-                  <td className="px-6 py-4">
-                    {formatDate(patient.reporting_month)}
-                  </td>
+                  <td className="px-6 py-4">{formatDate(patient.reporting_month)}</td>
                   <td className="px-6 py-4">
                     <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-green-400">
                       {patient.queue_status}
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    {patient.queue_status === "QUEUED" ? (
+                    {patient.queue_status === 'QUEUED' ? (
                       <button
                         type="button"
-                        onClick={() =>
-                          handleProcessPatient(
-                            patient.person_id,
-                            patient.reporting_month
-                          )
-                        }
+                        onClick={() => handleProcessPatient(patient.person_id, patient.reporting_month)}
                         className="px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                       >
                         Process
@@ -351,13 +304,7 @@ const Moh731SyncQueueComponent = () => {
                       <button
                         type="button"
                         className="px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 disabled:opacity-50"
-                        onClick={() =>
-                          handleFreezePatients(
-                            patient.person_id,
-                            patient.reporting_month,
-                            index
-                          )
-                        }
+                        onClick={() => handleFreezePatients(patient.person_id, patient.reporting_month, index)}
                         disabled={frozenRows.includes(index)}
                       >
                         Freeze
