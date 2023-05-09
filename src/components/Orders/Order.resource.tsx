@@ -17,11 +17,11 @@ export const mappingOrders = async (results: []) => {
     }) => ({
       orderNumber: orderNumber,
       order: concept.display,
-      date: new Date(dateActivated).toLocaleDateString("en-GB"),
+      date: new Date(dateActivated).toLocaleDateString('en-GB'),
       orderer: orderer.display,
       urgency: urgency,
       orderUuid: uuid,
-    })
+    }),
   );
   return orders;
 };
@@ -38,20 +38,18 @@ export const fetchActiveOrders = async (uuid: any) => {
 
 export const fetchVoidedOrders = async (uuid: any) => {
   const response = await fetch(
-    `/ws/rest/v1/order?patient=${uuid}&v=custom:(uuid,orderNumber,voided,concept,dateActivated,orderer,urgency)&includeVoided=true`
+    `/ws/rest/v1/order?patient=${uuid}&v=custom:(uuid,orderNumber,voided,concept,dateActivated,orderer,urgency)&includeVoided=true`,
   );
   const data = await response.json();
   const { results } = data;
-  const voidedOrders = results?.filter(
-    (result: { voided: boolean }) => result.voided !== false
-  );
+  const voidedOrders = results?.filter((result: { voided: boolean }) => result.voided !== false);
   const orders = await mappingOrders(voidedOrders);
 
   return orders;
 };
 
 export function getUser() {
-  const userData = localStorage.getItem("userInformation");
+  const userData = localStorage.getItem('userInformation');
   const { user } = JSON.parse(userData as string);
   return user;
 }

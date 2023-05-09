@@ -1,10 +1,10 @@
-import logo from "../../public/ampath-logo.png";
-import { Link } from "react-router-dom";
-import { MdLogout } from "react-icons/md";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { useNavigate } from "react-router-dom";
-import storage from "../../app/localStorage";
-import { BsSearch } from "react-icons/bs";
+import logo from '../../public/ampath-logo.png';
+import { Link } from 'react-router-dom';
+import { MdLogout } from 'react-icons/md';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { useNavigate } from 'react-router-dom';
+import storage from '../../app/localStorage';
+import { BsSearch } from 'react-icons/bs';
 
 interface Props {
   shouldRenderSearchLink: boolean;
@@ -16,12 +16,12 @@ const Header = ({ shouldRenderSearchLink }: Props) => {
   const { user } = storage.loadData();
   const handleLogout = async () => {
     try {
-      await fetch("openmrs/ws/rest/v1/session", {
-        method: "DELETE",
+      await fetch('openmrs/ws/rest/v1/session', {
+        method: 'DELETE',
       }).then(() => {
-        localStorage.removeItem("userInformation");
-        localStorage.removeItem("authenticated");
-        navigate("/login");
+        localStorage.removeItem('userInformation');
+        localStorage.removeItem('authenticated');
+        navigate('/login');
       });
     } catch (error) {
       console.log(error);
@@ -50,9 +50,9 @@ const Header = ({ shouldRenderSearchLink }: Props) => {
               </Link>
             )}
             <li className="text-sm">
-              Logged in as{" "}
+              Logged in as{' '}
               <span className="uppercase">
-                <strong>{user&& user.display}</strong>
+                <strong>{user && user.display}</strong>
               </span>
             </li>
             <li

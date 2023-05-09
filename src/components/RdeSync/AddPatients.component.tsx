@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { AiOutlineDelete } from "react-icons/ai";
-import storage from "../../app/localStorage";
-import { FaPlus } from "react-icons/fa";
-import Header from "../layout/Header";
-import Footer from "../layout/Footer";
-import { useNavigate } from "react-router-dom";
-import { queuePatients, setReportingMonth } from "./AddPatients.resource";
-import ErrorToast from "../toasts/ErrorToast";
-import SuccessToast from "../toasts/SuccessToast";
+import { useState } from 'react';
+import { AiOutlineDelete } from 'react-icons/ai';
+import storage from '../../app/localStorage';
+import { FaPlus } from 'react-icons/fa';
+import Header from '../layout/Header';
+import Footer from '../layout/Footer';
+import { useNavigate } from 'react-router-dom';
+import { queuePatients, setReportingMonth } from './AddPatients.resource';
+import ErrorToast from '../toasts/ErrorToast';
+import SuccessToast from '../toasts/SuccessToast';
 
 const AddPatientIdentifier = () => {
   const [patientIdentifier, setPatientIdentifier] = useState({
-    identifier: "",
+    identifier: '',
   });
   const [identifiers, setIdentifiers] = useState<string[]>([]);
   const [isError, setIsError] = useState(false);
@@ -29,18 +29,14 @@ const AddPatientIdentifier = () => {
   };
 
   const tabulateIdentifier = () => {
-    const identifierInput = document.getElementById(
-      "identifier"
-    ) as HTMLInputElement;
+    const identifierInput = document.getElementById('identifier') as HTMLInputElement;
     if (identifierInput.value.length > 0) {
       //remove duplicates
-      const formatIdentifiers = new Set(identifier.split(","));
-      const newIdentifiers = Array.from(formatIdentifiers).filter(
-        (id) => !identifiers.includes(id)
-      );
+      const formatIdentifiers = new Set(identifier.split(','));
+      const newIdentifiers = Array.from(formatIdentifiers).filter((id) => !identifiers.includes(id));
       setIdentifiers([...identifiers, ...newIdentifiers]);
       if (identifierInput) {
-        identifierInput.value = "";
+        identifierInput.value = '';
       }
     } else {
       return;
@@ -51,14 +47,11 @@ const AddPatientIdentifier = () => {
   //month options
   const monthOptions = [];
   for (let i = 0; i < 12; i++) {
-    const month = new Date(currentDate.getFullYear(), i).toLocaleString(
-      "default",
-      { month: "long" }
-    );
+    const month = new Date(currentDate.getFullYear(), i).toLocaleString('default', { month: 'long' });
     monthOptions.push(
       <option key={i} value={i + 1}>
         {month}
-      </option>
+      </option>,
     );
   }
 
@@ -70,7 +63,7 @@ const AddPatientIdentifier = () => {
     yearOptions.push(
       <option key={i} value={i}>
         {i}
-      </option>
+      </option>,
     );
   }
 
@@ -106,12 +99,8 @@ const AddPatientIdentifier = () => {
           <div className="flex space-x-4 pt-2">
             <h2 className="text-xl pt-1.5">Reporting Month:</h2>
             <div className="bg-gray-200 inline-block w-auto">
-              <select className="mt-3 mb-3 ml-3 mr-3 month-dropdown">
-                {monthOptions}
-              </select>
-              <select className="mt-3 mb-3 ml-3 mr-3 year-dropdown">
-                {yearOptions}
-              </select>
+              <select className="mt-3 mb-3 ml-3 mr-3 month-dropdown">{monthOptions}</select>
+              <select className="mt-3 mb-3 ml-3 mr-3 year-dropdown">{yearOptions}</select>
             </div>
           </div>
           <div className="mt-10">
@@ -151,10 +140,7 @@ const AddPatientIdentifier = () => {
                     <td className="px-4 py-2 text-center">{index + 1}</td>
                     <td className="px-4 py-2 text-center">{id}</td>
                     <td className="px-4 py-2 text-center">
-                      <button
-                        className="text-red-600 hover:text-red-800"
-                        onClick={() => deleteIdentifier(id)}
-                      >
+                      <button className="text-red-600 hover:text-red-800" onClick={() => deleteIdentifier(id)}>
                         <AiOutlineDelete size={18} />
                       </button>
                     </td>
@@ -192,7 +178,7 @@ const AddPatientIdentifier = () => {
       <div className="grid justify-items-end mr-9 mt-5">
         <button
           className="bg-blue-500 text-white hover:bg-blue-600 hover:font-bold py-2 px-5 rounded-lg mr-5"
-          onClick={() => navigate("/moh-731-sync")}
+          onClick={() => navigate('/moh-731-sync')}
         >
           Back to patient list
         </button>

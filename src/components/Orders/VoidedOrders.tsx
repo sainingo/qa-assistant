@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
-import { ClipLoader } from "react-spinners";
-import Pagination from "../patientSearch/Pagination";
-import { Order } from "./Orders";
-import {
-  fetchVoidedOrders,
-  gettingPatientName,
-  getUser,
-} from "./Order.resource";
-import { useParams } from "react-router-dom";
-import { newVoidOrders } from "./ActiveOrders";
+import { useEffect, useState } from 'react';
+import { ClipLoader } from 'react-spinners';
+import Pagination from '../patientSearch/Pagination';
+import { Order } from './Orders';
+import { fetchVoidedOrders, gettingPatientName, getUser } from './Order.resource';
+import { useParams } from 'react-router-dom';
+import { newVoidOrders } from './ActiveOrders';
 
 function VoidedOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [privileges, setPrivileges] = useState([]); //privileges to be used when restoring orders
-  const [patientName, setPatientName] = useState("");
+  const [patientName, setPatientName] = useState('');
   const [Loading, isLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [patientsPerPage] = useState<number>(5);
@@ -44,10 +40,7 @@ function VoidedOrders() {
 
     fetchingResources();
 
-    if (
-      newVoidOrders &&
-      JSON.stringify(newVoidOrders) !== JSON.stringify(orders)
-    ) {
+    if (newVoidOrders && JSON.stringify(newVoidOrders) !== JSON.stringify(orders)) {
       setOrders(newVoidOrders);
     }
   }, [setOrders, newVoidOrders]);
@@ -64,8 +57,7 @@ function VoidedOrders() {
             <>
               <div className="ml-[15%] ">
                 <h2 className="text-2xl text-center">
-                  Voided Orders for{" "}
-                  <span className="font-bold text-blue-500">{patientName}</span>
+                  Voided Orders for <span className="font-bold text-blue-500">{patientName}</span>
                 </h2>
                 <h2 className="p-4 ml-32 mb-2 mt-4">
                   {orders.length === 1 ? (
@@ -92,19 +84,11 @@ function VoidedOrders() {
                           key={order.orderUuid}
                           className="bg-white border-b hover:text-blue-500 hover:cursor-pointer"
                         >
-                          <td className="px-6 py-4 text-center">
-                            {order.orderNumber}
-                          </td>
+                          <td className="px-6 py-4 text-center">{order.orderNumber}</td>
                           <td className="text-left py-5">{order.order}</td>
-                          <td className="px-6 py-4 text-center">
-                            {order.date}
-                          </td>
-                          <td className="px-6 py-4 text-center">
-                            {order.orderer}
-                          </td>
-                          <td className="px-6 py-4 text-center">
-                            {order.urgency}
-                          </td>
+                          <td className="px-6 py-4 text-center">{order.date}</td>
+                          <td className="px-6 py-4 text-center">{order.orderer}</td>
+                          <td className="px-6 py-4 text-center">{order.urgency}</td>
                           <td className="px-6 py-4 text-center">
                             <button className="bg-cyan-900 text-white hover:bg-cyan-700 font-bold py-2 m-4 px-4 rounded-sm">
                               Restore
@@ -115,11 +99,7 @@ function VoidedOrders() {
                     </tbody>
                   </table>
                 </div>
-                <Pagination
-                  patientsPerPage={patientsPerPage}
-                  totalPatients={orders.length}
-                  paginate={paginate}
-                />
+                <Pagination patientsPerPage={patientsPerPage} totalPatients={orders.length} paginate={paginate} />
               </div>
             </>
           ) : (

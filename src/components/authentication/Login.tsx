@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import Logo from "../../public/ampath-logo.png";
-import AuthenticationResource from "./AuthenticationResource";
-import ErrorAlert from "../alerts/ErrorAlert";
+import Logo from '../../public/ampath-logo.png';
+import AuthenticationResource from './AuthenticationResource';
+import ErrorAlert from '../alerts/ErrorAlert';
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const [formdata, SetFormData] = useState({ username: "", password: "" });
+  const [formdata, SetFormData] = useState({ username: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setError] = useState("");
+  const [isError, setError] = useState('');
 
   const { username, password } = formdata;
 
@@ -22,7 +22,7 @@ const Login = () => {
       setError(result);
     } else {
       setIsLoading(false);
-      navigate("/");
+      navigate('/');
       localStorage.setItem('authenticated', 'true');
     }
   };
@@ -42,10 +42,7 @@ const Login = () => {
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
               <div>
-                <label
-                  htmlFor="username"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
+                <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 ">
                   Username
                 </label>
                 <input
@@ -60,10 +57,7 @@ const Login = () => {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 ">
                   Password
                 </label>
                 <input
@@ -111,7 +105,7 @@ const Login = () => {
                   Sign in
                 </button>
               )}
-              {isError ? <ErrorAlert message={isError} details="" /> : ""}
+              {isError ? <ErrorAlert message={isError} details="" /> : ''}
             </form>
           </div>
         </div>

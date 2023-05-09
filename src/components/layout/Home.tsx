@@ -1,27 +1,27 @@
-import { FaFlask, FaSearch, FaSync } from "react-icons/fa";
-import SimpleMenuCard from "../cards/SimpleMenuCard";
-import Header from "./Header";
-import Footer from "./Footer";
+import { FaFlask, FaSearch, FaSync } from 'react-icons/fa';
+import SimpleMenuCard from '../cards/SimpleMenuCard';
+import Header from './Header';
+import Footer from './Footer';
 
 const Home = () => {
   const homeMenuItems = [
     {
-      title: "Patient Search",
-      description: "Patient oriented activities e.g voiding orders",
+      title: 'Patient Search',
+      description: 'Patient oriented activities e.g voiding orders',
       icon: FaSearch,
-      path: "/patient-search",
+      path: '/patient-search',
     },
     {
-      title: "Lab Results Sync",
-      description: "Sync EID data dump",
+      title: 'Lab Results Sync',
+      description: 'Sync EID data dump',
       icon: FaFlask,
-      path: "/lab-results-sync",
+      path: '/lab-results-sync',
     },
     {
-      title: "MOH-731 Sync",
+      title: 'MOH-731 Sync',
       description: "Re-process patient's data",
       icon: FaSync,
-      path: "/moh-731-sync",
+      path: '/moh-731-sync',
     },
   ];
 

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
 interface BreadcrumbProps {
   items: { label: string; link?: string }[];
@@ -22,10 +22,7 @@ const Breadcrumb: FC<BreadcrumbProps> = ({ items }) => {
       <ol className="inline-flex items-center space-x-1 md:space-x-3">
         {items.map(({ label, link }, index) => (
           <li key={index} className="inline-flex items-center">
-            <a
-              href={link}
-              className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
-            >
+            <a href={link} className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
               {index !== items.length - 1 && RightChervon}
               <span>{label}</span>
             </a>

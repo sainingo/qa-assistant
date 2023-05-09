@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type Props = {
   message: string;
@@ -8,10 +8,7 @@ type Props = {
 const ErrorAlert: React.FC<Props> = ({ message, details }) => {
   return (
     <>
-      <div
-        className="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
-        role="alert"
-      >
+      <div className="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
         <svg
           aria-hidden="true"
           className="flex-shrink-0 inline w-5 h-5 mr-3"

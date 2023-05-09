@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
-import AdvanceFilters from "./AdvanceFilters";
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../context/AppContext";
+import { useNavigate } from 'react-router-dom';
+import AdvanceFilters from './AdvanceFilters';
+import { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../../context/AppContext';
 
 type FunctionProps = {
   searchedPatientsResult: any;
@@ -20,9 +20,7 @@ const DisplayPatientResult: React.FC<FunctionProps> = ({
 
   const handleRedirection = (id: number) => {
     currentPatient.length = 0;
-    const result: Object[] = ([] = searchedPatientsResult.filter(
-      (data: any) => data.uuid === id
-    ));
+    const result: Object[] = ([] = searchedPatientsResult.filter((data: any) => data.uuid === id));
     currentPatient.push(result);
     navigate(`/patientInfo/${id}`);
   };
@@ -37,12 +35,7 @@ const DisplayPatientResult: React.FC<FunctionProps> = ({
     <>
       {searchedPatientsResult && (
         <>
-          {isTrue && (
-            <AdvanceFilters
-              searchedPatientsResult={searchedPatientsResult}
-              handleFilter={handleFilter}
-            />
-          )}
+          {isTrue && <AdvanceFilters searchedPatientsResult={searchedPatientsResult} handleFilter={handleFilter} />}
           <p className="ml-32 mb-2 mt-4">
             <strong>{searchedPatientsResult.length}</strong> Patients found
           </p>
@@ -74,15 +67,10 @@ const DisplayPatientResult: React.FC<FunctionProps> = ({
                     className="bg-white border-b hover:bg-blue-400 hover:text-white hover:cursor-pointer"
                     key={index}
                   >
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                    >
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                       {index + 1}
                     </th>
-                    <td className="px-6 py-4">
-                      {item?.identifiers[0]?.display}
-                    </td>
+                    <td className="px-6 py-4">{item?.identifiers[0]?.display}</td>
                     <td className="px-6 py-4">{item?.person?.display}</td>
                     <td className="px-6 py-4">{item?.person?.gender}</td>
                     <td className="px-6 py-4">{item?.person?.age}</td>

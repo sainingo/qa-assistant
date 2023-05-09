@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface Props {
   patientsPerPage: number;
@@ -6,11 +6,7 @@ interface Props {
   paginate: (number: number) => any;
 }
 
-const Pagination: React.FC<Props> = ({
-  patientsPerPage,
-  totalPatients,
-  paginate,
-}) => {
+const Pagination: React.FC<Props> = ({ patientsPerPage, totalPatients, paginate }) => {
   let pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalPatients / patientsPerPage); i++) {

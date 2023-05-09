@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 export interface selectedOption {
-  selectedOption: Option
+  selectedOption: Option;
 }
 
 interface DropdownOptions {
@@ -14,13 +14,11 @@ type Option = {
   value: string;
 };
 
-const Dropdown: React.FC<DropdownOptions> = ({options, firstOptionText}) => {
+const Dropdown: React.FC<DropdownOptions> = ({ options, firstOptionText }) => {
   const [selectedOption, setSelectedOption] = useState<Option>();
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const option = options.find(
-      (o) => o.value === event.target.value
-    );
+    const option = options.find((o) => o.value === event.target.value);
 
     if (option) {
       setSelectedOption(option);
