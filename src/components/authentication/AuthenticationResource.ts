@@ -1,7 +1,7 @@
 import storage from '../../app/localStorage';
 
 const AuthenticationResource = async (username: string, password: string) => {
-  let response = {
+  const response = {
     error: '',
   };
   if (username.trim().length !== 0 && password.trim().length !== 0) {

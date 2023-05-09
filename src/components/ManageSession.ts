@@ -1,5 +1,5 @@
 export const CheckSession = async () => {
-  let response = {
+  const response = {
     isAuthenticated: '',
   };
   const result = await fetch('/ws/rest/v1/session', {
