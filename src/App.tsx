@@ -1,21 +1,49 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AppContext, AppContextType } from './context/AppContext';
-import { useEffect, useState } from 'react';
+import { AppContext, AppContextType,  PatientObjSubset } from './context/AppContext';
+import {  useState } from 'react';
 import PatientSearch from './components/patientSearch/Patient';
 import Orders from './components/Orders/Orders.component';
 import Login from './components/authentication/Login';
 import ProtectedRoutes from './components/authentication/ProtectedRoutes';
 import PatientInformation from './components/PatientInformation';
 import Home from './components/layout/Home';
-import { CheckSession, DeleteSession } from './components/ManageSession';
 import Moh731SyncQueueComponent from './components/RdeSync/Moh731Sync.component';
 import AddPatientIdentifier from './components/RdeSync/AddPatients.component';
 
 const App = () => {
-  const [currentPatient] = useState<Object[]>([]);
+  const [currentPatient, setCurrentPatient] = useState<PatientObjSubset>({
+    preferredName: {
+      uuid: '',
+      display: '',
+      links: [],
+    },
+    preferredAddress: {
+      uuid: '',
+      display: '',
+      links: [],
+    },
+    gender: '',
+    age: 0,
+    birthdate: '',
+  });
 
   const contextValue: AppContextType = {
-    currentPatient,
+    currentPatient: {
+      preferredName: currentPatient.preferredName || {
+        uuid: '',
+        display: '',
+        links: [],
+      },
+      preferredAddress: currentPatient.preferredAddress || {
+        uuid: '',
+        display: '',
+        links: [],
+      },
+      gender: currentPatient.gender || '',
+      age: currentPatient.age || 0,
+      birthdate: currentPatient.birthdate || '',
+    },
+    setCurrentPatient,
   };
   // useEffect(() => {
   //   const verifySession = setInterval(async () => {

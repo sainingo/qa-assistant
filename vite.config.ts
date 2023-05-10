@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   server: {
     proxy: {
-      '/ws': {
-        target: 'https://ngx.ampath.or.ke/amrs',
+      '/openmrs': {
+        target: 'https://dev3.openmrs.org/',
         changeOrigin: true,
         secure: false,
       },
