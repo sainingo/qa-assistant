@@ -31,7 +31,10 @@ const SideNavBar = () => {
         <ul className="flex flex-col gap-10 text-xl mr-2">
           <NavLink to={`/patientInfo/${patientId}`} style={({ isActive }) => (isActive ? activeStyle : undefined)}>
             <li className="py-2 px-4 flex gap-2 items-center hover:cursor-pointer hover:shadow-md">
-              <span ><AiOutlineInfoCircle /> </span>Patients Info
+              <span>
+                <AiOutlineInfoCircle />{' '}
+              </span>
+              Patients Info
             </li>
           </NavLink>
           <NavLink to={`/patient/${patientId}/orders`} style={({ isActive }) => (isActive ? activeStyle : undefined)}>
@@ -52,10 +55,7 @@ const SideNavBar = () => {
               Encounters
             </li>
           </NavLink>
-          <NavLink
-            to={`/observations/${patientId}`}
-            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
+          <NavLink to={`/observations/${patientId}`} style={({ isActive }) => (isActive ? activeStyle : undefined)}>
             <li className="py-2 px-4 flex gap-2 items-center hover:cursor-pointer hover:shadow-md">
               <FaRegCalendarAlt />
               Observations

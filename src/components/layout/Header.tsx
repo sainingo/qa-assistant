@@ -1,5 +1,5 @@
 import logo from '../../public/ampath-logo.png';
-import { Link , useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MdLogout } from 'react-icons/md';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import storage from '../../app/localStorage';

@@ -186,7 +186,7 @@ const CsvUpload = () => {
         <div className="relative flex justify-center">
           <div className="text-white w-[70%] mt-10 md:flex p-4 gap-8 items-center rounded-lg shadow-lg bg-gray-500">
             <div className="flex justify-center">
-              <img alt='csv upload' src={csv_image} width={180} />
+              <img alt="csv upload" src={csv_image} width={180} />
             </div>
             <div>
               <div className="py-4">
@@ -195,7 +195,9 @@ const CsvUpload = () => {
               </div>
               <div className="grid gap-4 md:p-2 md:flex md:items-center md:gap-4">
                 <input type="file" name="file" onChange={onChangeHandler} />
-                <label htmlFor='type' className="px-2 text-md font-semibold">Choose CSV type:</label>
+                <label htmlFor="type" className="px-2 text-md font-semibold">
+                  Choose CSV type:
+                </label>
                 <select
                   className="p-3 outline-none bg-themeColor text-black"
                   value={fileType}
