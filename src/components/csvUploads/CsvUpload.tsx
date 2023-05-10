@@ -9,7 +9,7 @@ import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 
 const CsvUpload = () => {
-  const [csvFile, setCsvFile] = useState(null);
+  const [csvFile, setCsvFile] = useState(new File([], ''));
   const [fileType, setFileType] = useState('');
   const [reloadState, setReloadState] = useState(false);
 

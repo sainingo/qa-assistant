@@ -8,7 +8,6 @@ interface Props {
 
 const Pagination: React.FC<Props> = ({ patientsPerPage, totalPatients, paginate }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const pageNumbers = [];
 
   const pageNumbers: any = [];
   for (let i = 1; i <= Math.ceil(totalPatients / patientsPerPage); i++) {
