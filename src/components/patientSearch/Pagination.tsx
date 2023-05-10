@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Pagination: React.FC<Props> = ({ patientsPerPage, totalPatients, paginate }) => {
-  let pageNumbers = [];
+  const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalPatients / patientsPerPage); i++) {
     pageNumbers.push(i);
