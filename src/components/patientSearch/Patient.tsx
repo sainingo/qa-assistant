@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import DisplayPatientResult from './DisplayPatientResult';
 import Pagination from './Pagination';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -6,9 +6,6 @@ import { IoFilterSharp } from 'react-icons/io5';
 import { searchPatient } from './PatientSearch.resource';
 import Header from '../layout/Header';
 
-interface Result {
-  newData: [];
-}
 const PatientSearch = () => {
   // const [patientInfo, setPatientInfo] = useState<any>([])
   const [currentPage, setCurrentPage] = useState<number>(1);

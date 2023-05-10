@@ -21,8 +21,13 @@ const Observation = () => {
   useEffect(() => {
     const getObs = async () => {
       const obsResult = await queryObservation(id);
-      const { results } = await obsResult?.json();
-      setObs(results);
+      if (obsResult?.status === 500) {
+        swal('Error', 'An error occurred while fetching observations', 'error');
+      }
+      if (obsResult) {
+        const { results } = await obsResult.json();
+        setObs(results);
+      }
     };
     getObs();
   }, [id]);

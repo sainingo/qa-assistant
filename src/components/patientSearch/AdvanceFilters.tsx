@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 type FunctionProps = {
+  // eslint-disable-next-line no-unused-vars
   handleFilter: (filteredPatients: object[]) => any;
   searchedPatientsResult: [];
 };
@@ -10,6 +11,7 @@ const AdvanceFilters: React.FC<FunctionProps> = ({ handleFilter, searchedPatient
   const [selectedAgeBracket, setSelectedAgeBracket] = useState('0-18');
 
   const handleAgeBracket = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     let ageBracket: Object[];
     if (selectedAgeBracket) {
       if (selectedAgeBracket === '0-18') {

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 interface Props {
   patientsPerPage: number;
   totalPatients: number;
+  // eslint-disable-next-line no-unused-vars
   paginate: (number: number) => any;
 }
 

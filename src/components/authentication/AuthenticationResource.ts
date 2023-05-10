@@ -13,7 +13,7 @@ const AuthenticationResource = async (username: string, password: string) => {
       redirect: 'follow',
     });
     try {
-      const [headers, body] = await Promise.all([result.headers, result.json()]);
+      const [, body] = await Promise.all([result.headers, result.json()]);
       if (body.authenticated) {
         storage.saveInfo(body);
         localStorage.setItem('authenticated', body.authenticated);

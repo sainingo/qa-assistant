@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import Pagination from '../patientSearch/Pagination';
 import { Order } from './Orders';
-import { fetchVoidedOrders, gettingPatientName, getUser } from './Order.resource';
+import { fetchVoidedOrders, gettingPatientName } from './Order.resource';
 import { useParams } from 'react-router-dom';
 import { newVoidOrders } from './ActiveOrders';
 
 function VoidedOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [privileges, setPrivileges] = useState([]); //privileges to be used when restoring orders
   const [patientName, setPatientName] = useState('');
   const [Loading, isLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -34,8 +33,8 @@ function VoidedOrders() {
       fetchedOrders ? setOrders(fetchedOrders) : setOrders([]);
       isLoading(false);
 
-      const user = getUser();
-      setPrivileges(user.privileges);
+      // const user = getUser();
+      // setPrivileges(user.privileges);
     };
 
     fetchingResources();

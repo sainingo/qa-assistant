@@ -13,7 +13,7 @@ interface searchProps {
   searchTerm: string;
 }
 
-const SearchBar: React.FC<searchProps> = ({ handleSearch, handleClick, searchTerm }) => {
+const SearchBar: React.FC<searchProps> = ({ handleSearch, handleClick, searchTerm }: searchProps) => {
   return (
     <>
       <label htmlFor="table-search" className="sr-only">
@@ -119,10 +119,11 @@ const Breadcrumb = () => {
 
 interface calendarProps {
   selectedMonth: string;
+  // eslint-disable-next-line no-unused-vars
   handleMonthChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Calendar: React.FC<calendarProps> = ({ selectedMonth, handleMonthChange }) => {
+const Calendar: React.FC<calendarProps> = ({ selectedMonth, handleMonthChange }: calendarProps) => {
   return (
     <div className="flex items-center mt-2 mb-3 space-x-4">
       <label htmlFor="start" className="mb-2 font-bold text-gray-700">

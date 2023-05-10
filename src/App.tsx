@@ -13,6 +13,7 @@ import Moh731SyncQueueComponent from './components/RdeSync/Moh731Sync.component'
 import Observation from './components/observations/Observation';
 
 const App = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   const [currentPatient] = useState<Object[]>([]);
 
   const contextValue: AppContextType = {

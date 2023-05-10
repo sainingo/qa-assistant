@@ -51,7 +51,7 @@ function ActiveOrders() {
         buttons: ['No', 'Yes'],
       }).then(async (willDelete) => {
         if (willDelete) {
-          const response = await fetch(`/ws/rest/v1/order/${orderUuid}?!purge`, {
+          await fetch(`/ws/rest/v1/order/${orderUuid}?!purge`, {
             method: 'DELETE',
           }).then(async (response) => {
             console.log('response when voiding', response);

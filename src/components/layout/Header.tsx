@@ -31,7 +31,7 @@ const Header = ({ shouldRenderSearchLink }: Props) => {
       <header className="bg-white shadow-md p-2 flex justify-between items-center">
         <span className="cursor-pointer ml-3">
           <Link to="/">
-            <img src={logo} width={180} />
+            <img src={logo} width={180} alt="AMPATH Lo" />
           </Link>
         </span>
         <button className="text-3xl mr-4 md:hidden">
@@ -54,11 +54,8 @@ const Header = ({ shouldRenderSearchLink }: Props) => {
                 <strong>{user && user.display}</strong>
               </span>
             </li>
-            <li
-              onClick={handleLogout}
-              className="text-lg flex gap-2 items-center hover:shadow-lg hover:bg-slate-300 p-2 rounded-sm cursor-pointer"
-            >
-              <MdLogout />
+            <li className="text-lg flex gap-2 items-center hover:shadow-lg hover:bg-slate-300 p-2 rounded-sm cursor-pointer">
+              <MdLogout onClick={handleLogout} />
               Log out
             </li>
           </ul>

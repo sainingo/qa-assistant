@@ -6,7 +6,7 @@ export const CheckSession = async () => {
     method: 'GET',
     redirect: 'follow',
   });
-  const [headers, body] = await Promise.all([result.headers, result.json()]);
+  const [, body] = await Promise.all([result.headers, result.json()]);
   if (body.authenticated == false) {
     response.isAuthenticated = 'false';
   }

@@ -1,15 +1,12 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { BsPencilSquare } from 'react-icons/bs';
 import { FaWalking, FaRegCalendarAlt } from 'react-icons/fa';
-import { GiHamburgerMenu } from 'react-icons/gi';
 import { BiBandAid } from 'react-icons/bi';
 import { NavLink } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 
 const SideNavBar = () => {
-  const [open, setOpen] = useState(true);
-
   const activeStyle = {
     color: '#2FBAF1',
     cursor: 'pointer',
@@ -20,10 +17,6 @@ const SideNavBar = () => {
   const patientId = currentPatient.map((info: any = {}) => {
     return info[0].uuid;
   });
-
-  const handleToggleMenu = () => {
-    setOpen(!open);
-  };
 
   return (
     <div className="hidden md:block absolute bg-white h-screen pl-[2%] shadow-lg">

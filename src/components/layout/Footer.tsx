@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
-interface Props {
+interface FooterProps {
   year: number;
 }
 
-const Footer: FC<Props> = ({ year }) => {
+const Footer: FC<FooterProps> = ({ year }: FooterProps) => {
   return (
     <footer className="bg-white rounded-lg m-4 bottom-0 absolute w-full flex-shrink-0">
       <div className="w-full mx-auto container md:p-6 p-4 md:flex md:items-center md:justify-between">
@@ -17,22 +17,22 @@ const Footer: FC<Props> = ({ year }) => {
         </span>
         <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-500 sm:mt-0">
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6">
+            <a href="/" className="mr-4 hover:underline md:mr-6">
               Documentation
             </a>
           </li>
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6">
+            <a href="/" className="mr-4 hover:underline md:mr-6">
               Privacy Policy
             </a>
           </li>
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6">
+            <a href="/" className="mr-4 hover:underline md:mr-6">
               Help
             </a>
           </li>
           <li>
-            <a href="#" className="hover:underline">
+            <a href="/" className="hover:underline">
               Contact
             </a>
           </li>

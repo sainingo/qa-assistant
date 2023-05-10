@@ -1,4 +1,3 @@
-import { response } from 'msw';
 import storage from '../../app/localStorage';
 import { Patient } from '../../types/Patient';
 import { ProcessQueuePayload } from '../../types/Payloads';
