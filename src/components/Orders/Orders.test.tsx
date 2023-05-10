@@ -6,7 +6,6 @@ import { describe, it, vi } from 'vitest';
 import 'whatwg-fetch';
 import { fetchActiveOrders, gettingPatientName, fetchVoidedOrders } from '../../mocks/orders.handler';
 import ActiveOrders from './ActiveOrders';
-import { mockOrders, mockPatient, mockVoidOrder } from './resource.mock';
 import VoidedOrders from './VoidedOrders';
 
 const restHandlers = [fetchActiveOrders, gettingPatientName, fetchVoidedOrders];
@@ -45,9 +44,9 @@ describe('Active Orders', () => {
   });
 
   it("displays the text 'no orders found' when no orders are fetched", async () => {
-    const fetchActiveOrders = server.use(
+    server.use(
       rest.get(`${BaseURL}`, (req, res, ctx) => {
-        const patientUuid = req.url.searchParams.get('patient');
+        req.url.searchParams.get('patient');
         return res(ctx.status(200), ctx.json([]));
       }),
     );
@@ -126,9 +125,9 @@ describe('Voided Orders', () => {
   });
 
   it("displays the text 'no orders found' when no orders are fetched", async () => {
-    const fetchVoidedOrders = server.use(
+    server.use(
       rest.get(`${BaseURL}`, (req, res, ctx) => {
-        const patientUuid = req.url.searchParams.get('patient');
+        req.url.searchParams.get('patient');
         return res(ctx.status(200), ctx.json([]));
       }),
     );

@@ -1,4 +1,4 @@
-import { rest, RestRequest } from 'msw';
+import { rest } from 'msw';
 
 const testURL = 'https://dev3.openmrs.org/openmrs/ws/rest/v1/session';
 export const handlers = [

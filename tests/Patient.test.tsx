@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import PatientSearch from '../src/components/patientSearch/Patient';
 import { MemoryRouter as Router } from 'react-router-dom';
 // import fetch from "node-fetch";
-import { describe, it, assertType, expectTypeOf } from 'vitest';
+import { describe, it, expectTypeOf } from 'vitest';
 
 describe('Patient component', () => {
   const mockPatient = [

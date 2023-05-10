@@ -1,12 +1,12 @@
 export const CheckSession = async () => {
-  let response = {
+  const response = {
     isAuthenticated: '',
   };
   const result = await fetch('/ws/rest/v1/session', {
     method: 'GET',
     redirect: 'follow',
   });
-  const [headers, body] = await Promise.all([result.headers, result.json()]);
+  const [, body] = await Promise.all([result.headers, result.json()]);
   if (body.authenticated == false) {
     response.isAuthenticated = 'false';
   }

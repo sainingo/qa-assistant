@@ -5,7 +5,7 @@ import { FaWalking, FaRegCalendarAlt } from 'react-icons/fa';
 import { BiBandAid } from 'react-icons/bi';
 import { NavLink, useParams } from 'react-router-dom';
 const SideNavBar = () => {
-  let activeStyle = {
+  const activeStyle = {
     color: '#2FBAF1',
     cursor: 'pointer',
   };
@@ -19,7 +19,10 @@ const SideNavBar = () => {
         <ul className="flex flex-col gap-10 text-xl mr-2">
           <NavLink to={`/patientInfo/${id}`} style={({ isActive }) => (isActive ? activeStyle : undefined)}>
             <li className="py-2 px-4 flex gap-2 items-center hover:cursor-pointer hover:shadow-md">
-              <AiOutlineInfoCircle /> Patients Info
+              <span>
+                <AiOutlineInfoCircle />{' '}
+              </span>
+              Patients Info
             </li>
           </NavLink>
           <NavLink to={`/patient/${id}/orders`} style={({ isActive }) => (isActive ? activeStyle : undefined)}>
@@ -40,7 +43,7 @@ const SideNavBar = () => {
               Encounters
             </li>
           </NavLink>
-          <NavLink to="/observations" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+          <NavLink to={`/observations/${patientId}`} style={({ isActive }) => (isActive ? activeStyle : undefined)}>
             <li className="py-2 px-4 flex gap-2 items-center hover:cursor-pointer hover:shadow-md">
               <FaRegCalendarAlt />
               Observations

@@ -58,3 +58,4 @@ export const AppContext = React.createContext<AppContextType>({
   },
   setCurrentPatient: () => {},
 });
+

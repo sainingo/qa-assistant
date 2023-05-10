@@ -3,19 +3,19 @@ import AdvanceFilters from './AdvanceFilters';
 import { useContext} from 'react';
 import { AppContext, PatientObj } from '../../context/AppContext';
 
-type FunctionProps = {
+interface SearchPatientProps {
   searchedPatientsResult: any;
   isTrue: boolean;
+  // eslint-disable-next-line no-unused-vars
   setSearchedPatientsResult: (searchedPatientsResult: any) => void;
-};
+}
 
-const DisplayPatientResult: React.FC<FunctionProps> = ({
+const DisplayPatientResult: React.FC<SearchPatientProps> = ({
   searchedPatientsResult,
   setSearchedPatientsResult,
   isTrue,
 }) => {
   const { setCurrentPatient } = useContext(AppContext);
-
   const navigate = useNavigate();
 
   const handleRedirection = (id: number) => {

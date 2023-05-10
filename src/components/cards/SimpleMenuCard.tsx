@@ -1,15 +1,16 @@
 import React from 'react';
+// eslint-disable-next-line import/named
 import { IconType } from 'react-icons';
 import { Link } from 'react-router-dom';
 
-interface CardProps {
+interface SimpleMenuProps {
   title: string;
   icon: IconType;
   path: string;
   description: string;
 }
 
-const SimpleMenuCard: React.FC<CardProps> = ({ title, icon: Icon, path, description }: CardProps) => {
+const SimpleMenuCard: React.FC<SimpleMenuProps> = ({ title, icon: Icon, path, description }: SimpleMenuProps) => {
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-lg transition duration-300 ease-in-out hover:scale-105">
       <Link to={path}>

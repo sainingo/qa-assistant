@@ -14,7 +14,7 @@ let userNameField: any;
 let passwordField: any;
 let loginButton: any;
 const testURL = 'https://dev3.openmrs.org/openmrs/ws/rest/v1/session';
-let testUser = {
+const testUser = {
   username: 'Admin',
   password: 'Admin123',
 };
