@@ -8,8 +8,8 @@ import { fetchMoh731SyncQueue, freezeProcessedPatients, processQueuedPatients } 
 import storage from '../../app/localStorage';
 
 interface searchProps {
-  handleSearch: any;
-  handleClick: any;
+  handleSearch: React.ChangeEventHandler<HTMLInputElement>;
+  handleClick: React.MouseEventHandler<HTMLButtonElement>;
   searchTerm: string;
 }
 
@@ -142,17 +142,6 @@ const Calendar: React.FC<calendarProps> = ({ selectedMonth, handleMonthChange }:
   );
 };
 
-const handleProcessPatient = (personId: number, reportingMonth: string) => {
-  const payload = {
-    userId: 45,
-    reportingMonth: reportingMonth,
-    patientIds: [personId],
-  };
-
-  const result = processQueuedPatients(payload);
-  console.log(result);
-};
-
 const Moh731SyncQueueComponent = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
@@ -161,6 +150,17 @@ const Moh731SyncQueueComponent = () => {
   const [selectedMonth, setSelectedMonth] = useState('2020-01');
 
   const navigate = useNavigate();
+  const { user } = storage.loadData();
+
+  const handleProcessPatient = async (personId: number, reportingMonth: string) => {
+    const payload = {
+      userId: user?.uuid,
+      reportingMonth: reportingMonth,
+      patientIds: [personId],
+    };
+    await processQueuedPatients(payload);
+    await fetchMoh731SyncQueue(selectedMonth).then(setPatients);
+  };
 
   const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedMonth(event.target.value);
@@ -170,7 +170,7 @@ const Moh731SyncQueueComponent = () => {
     navigate('/moh-731-sync/add-patients');
   };
 
-  const handleSearchChange = (e: any) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchItem(e.target.value);
   };
 
@@ -178,8 +178,7 @@ const Moh731SyncQueueComponent = () => {
     setSearchItem('');
   };
 
-  const handleFreezePatients = async (personId: number, reportingMonth: string, index: number) => {
-    const { user } = storage.loadData();
+  const handleFreezePatient = async (personId: number, reportingMonth: string, index: number) => {
     const payload = {
       userId: user?.uuid,
       reportingMonth: reportingMonth,
@@ -193,6 +192,34 @@ const Moh731SyncQueueComponent = () => {
     }
   };
 
+  const patientIds = patients.map((patient) => patient.person_id);
+
+  const handleProcessAll = async () => {
+    const payload = {
+      userId: user?.uuid,
+      reportingMonth: selectedMonth,
+      patientIds: patientIds,
+    };
+
+    await processQueuedPatients(payload);
+    await fetchMoh731SyncQueue(selectedMonth).then(setPatients);
+  };
+
+  const handleFreezeAll = async () => {
+    const payload = {
+      userId: user?.uuid,
+      reportingMonth: selectedMonth,
+      patientIds: patientIds,
+    };
+
+    const result = await freezeProcessedPatients(payload);
+
+    if (result === 201) {
+      const allRows = patients.map((patient, index) => index);
+      setFrozenRows([...frozenRows, ...allRows]);
+    }
+  };
+
   useEffect(() => {
     fetchMoh731SyncQueue(selectedMonth).then(setPatients);
 
@@ -200,7 +227,7 @@ const Moh731SyncQueueComponent = () => {
       patient.patient_name.toLowerCase().includes(searchItem.toLowerCase()),
     );
     setFilteredPatients(filtered);
-  }, [searchItem, selectedMonth]);
+  }, [searchItem, selectedMonth, patients]);
 
   const data = searchItem ? filteredPatients : patients;
 
@@ -216,12 +243,14 @@ const Moh731SyncQueueComponent = () => {
               <button
                 type="button"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none"
+                onClick={handleProcessAll}
               >
                 Process All
               </button>
               <button
                 type="button"
                 className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none"
+                onClick={handleFreezeAll}
               >
                 Freeze All
               </button>
@@ -305,7 +334,7 @@ const Moh731SyncQueueComponent = () => {
                       <button
                         type="button"
                         className="px-3 py-2 text-sm font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 disabled:opacity-50"
-                        onClick={() => handleFreezePatients(patient.person_id, patient.reporting_month, index)}
+                        onClick={() => handleFreezePatient(patient.person_id, patient.reporting_month, index)}
                         disabled={frozenRows.includes(index)}
                       >
                         Freeze
