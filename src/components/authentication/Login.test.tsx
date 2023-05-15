@@ -3,7 +3,7 @@ import Login from './Login';
 import { beforeEach, describe, afterEach, it, expect, beforeAll, afterAll } from 'vitest';
 import AuthenticationResource from './AuthenticationResource';
 import { act } from 'react-dom/test-utils';
-import { handlers } from '../../mocks/login.handler';
+import { handlers } from '../../../tests/handlers/LoginHandler.mock';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { setupServer } from 'msw/node';
 
