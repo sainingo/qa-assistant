@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
-import Pagination from '../patientSearch/Pagination';
-import { getUser, fetchActiveOrders, fetchVoidedOrders, gettingPatientName } from './Order.resource';
+import { getUser, fetchActiveOrders, fetchVoidedOrders } from './PatientOrder.resource';
 import { ClipLoader } from 'react-spinners';
 import { useParams } from 'react-router-dom';
 import swal from 'sweetalert';
-import { Order } from './Orders';
+import { Order } from './PatientOrder.model';
+import Pagination from '../../../components/pagination/Pagination';
 
 let newVoidOrders: Order[];
 
-function ActiveOrders() {
+const PatientActiveOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [privileges, setPrivileges] = useState([]);
-  const [patientName, setPatientName] = useState('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [patientsPerPage] = useState<number>(5);
   const [Loading, isLoading] = useState(false);
@@ -23,23 +22,19 @@ function ActiveOrders() {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   const routeParams = useParams();
-  const { id } = routeParams;
+  const { uuid } = routeParams;
 
   useEffect(() => {
     isLoading(true);
 
     const fetchingResources = async () => {
-      const patient = await gettingPatientName(id);
-      setPatientName(patient);
-
-      const fetchedOrders = await fetchActiveOrders(id);
+      const fetchedOrders = await fetchActiveOrders(uuid);
       fetchedOrders ? setOrders(fetchedOrders) : setOrders([]);
       isLoading(false);
 
       const user = getUser();
       setPrivileges(user.privileges);
     };
-
     fetchingResources();
   }, [setOrders]);
 
@@ -93,25 +88,15 @@ function ActiveOrders() {
   return (
     <>
       {Loading ? (
-        <div className="flex items-center ml-[20%] p-4 mt-4 text-2xl">
+        <div className="flex items-center p-4 mt-4 text-2xl">
           <ClipLoader size={50} color="blue" />
         </div>
       ) : (
-        <div className="w-full h-screen p-8 bg-slate-100 overflow-y-hidden overflow-x-hidden">
+        <div className="w-full h-screen overflow-y-auto overflow-x-auto">
           {orders?.length > 0 ? (
             <>
-              <div className="ml-[15%] ">
-                <h2 className="text-2xl text-center">
-                  Active Orders for <span className="font-bold text-blue-500">{patientName}</span>
-                </h2>
-                <h2 className="p-4 ml-32 mb-2 mt-4">
-                  {orders.length === 1 ? (
-                    <strong>{orders.length} order found </strong>
-                  ) : (
-                    <strong>{orders.length} orders found </strong>
-                  )}
-                </h2>
-                <div className="md:ml-32 relative overflow-x-auto shadow-md sm:rounded-lg md:w-[90%] md:mx-auto mt-8">
+              <div className="m-4">
+                <div className="relative overflow-x-auto shadow-md md:mx-auto mt-8">
                   <table className=" lg:w-full mx-auto text-sm text-left" data-testid="orders-table">
                     <thead className="text-gray-700 uppercase bg-gray-50">
                       <tr>
@@ -134,9 +119,9 @@ function ActiveOrders() {
                           <td className="px-6 py-4 text-center">
                             <button
                               className="bg-cyan-900 text-white hover:bg-cyan-700 font-bold py-2 m-4 px-4 rounded-sm"
-                              onClick={() => handleVoidOrder(order.orderUuid, privileges, id)}
+                              onClick={() => handleVoidOrder(order.orderUuid, privileges, uuid)}
                             >
-                              Void
+                              void
                             </button>
                           </td>
                         </tr>
@@ -144,11 +129,18 @@ function ActiveOrders() {
                     </tbody>
                   </table>
                 </div>
+                <h4 className="p-4">
+                  {orders.length === 1 ? (
+                    <strong>{orders.length} order found </strong>
+                  ) : (
+                    <strong>{orders.length} orders found </strong>
+                  )}
+                </h4>
                 <Pagination patientsPerPage={patientsPerPage} totalPatients={orders.length} paginate={paginate} />
               </div>
             </>
           ) : (
-            <div className="ml-[15%] p-4">
+            <div className="p-4">
               <p className="text-lg italic">No orders found for this patient</p>
             </div>
           )}
@@ -156,8 +148,8 @@ function ActiveOrders() {
       )}
     </>
   );
-}
+};
 
 export { newVoidOrders };
 
-export default ActiveOrders;
+export default PatientActiveOrders;

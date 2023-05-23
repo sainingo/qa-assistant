@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import Header from '../layout/Header';
-import SideNavBar from '../SideNavBar/SideNavBar';
-import { queryObservation, deleteObservation } from './Observation.resource';
+import { useEffect, useState } from 'react';
+import { deleteObservation, getPatientObservations } from './Observation.resource';
 import { useParams } from 'react-router-dom';
-import Pagination from '../patientSearch/Pagination';
 import swal from 'sweetalert';
+import Header from '../../../components/layout/headers/Header';
+import Sidebar from '../../../components/layout/Sidebar';
+import Pagination from '../../../components/pagination/Pagination';
+import SimpleFooter from '../../../components/layout/SimpleFooter';
+import PatientBanner from '../banners/PatientBanner';
 
-const Observation = () => {
-  const { id }: any = useParams();
+const ObservationComponent = () => {
+  const { uuid } = useParams<{ uuid: string }>();
   const [obs, setObs] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [dataPerPage] = useState<number>(3);
@@ -19,18 +21,31 @@ const Observation = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   useEffect(() => {
-    const getObs = async () => {
-      const obsResult = await queryObservation(id);
-      if (obsResult?.status === 500) {
-        swal('Error', 'An error occurred while fetching observations', 'error');
-      }
-      if (obsResult) {
-        const { results } = await obsResult.json();
-        setObs(results);
-      }
-    };
-    getObs();
-  }, [id]);
+    if (uuid) {
+      getPatientObservations(uuid)
+        .then((data) => {
+          setObs(data);
+        })
+        .catch((error) => {
+          console.log(error);
+          swal('Error', 'An error occurred while fetching observations', error);
+        });
+    }
+  }, [uuid]);
+
+  // useEffect(() => {
+  //   const getObs = async () => {
+  //     const obsResult = await queryObservation(uuid);
+  //     if (obsResult?.status === 500) {
+  //       swal('Error', 'An error occurred while fetching observations', 'error');
+  //     }
+  //     if (obsResult) {
+  //       const { results } = await obsResult.json();
+  //       setObs(results);
+  //     }
+  //   };
+  //   getObs();
+  // }, [id]);
 
   const userInfo = obs[0]?.person?.display;
 
@@ -62,9 +77,8 @@ const Observation = () => {
   };
 
   return (
-    <div>
-      <Header shouldRenderSearchLink={true} />
-      <SideNavBar />
+    <>
+      <PatientBanner />
       <div className="mt-[2%] sm:ml-[30%] md:ml-[15%] sm:w-[60%] md:w-[75%]">
         <h1 className="text-xl md:text-2xl text-center font-bold underline">Obs for {user_name}</h1>
         <div className="p-4 mt-6 w-[80%] mx-auto">
@@ -113,11 +127,28 @@ const Observation = () => {
             );
           })}
         </div>
-        <div className="w-[70%] mx-auto">
+        <div className="mx-auto">
           {dataPerPage && <Pagination patientsPerPage={dataPerPage} totalPatients={obs.length} paginate={paginate} />}
         </div>
       </div>
-    </div>
+    </>
+  );
+};
+
+const Observation = () => {
+  return (
+    <>
+      <div className="flex h-screen">
+        <Sidebar />
+        <div className="flex flex-col flex-1">
+          <Header />
+          <main className="p-4 overflow-y-auto">
+            <ObservationComponent />
+          </main>
+          <SimpleFooter />
+        </div>
+      </div>
+    </>
   );
 };
 

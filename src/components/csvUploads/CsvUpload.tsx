@@ -5,7 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import storage from '../../app/localStorage';
 import DisplayCSV from './DisplayCSV';
-import Header from '../layout/Header';
+import Header from '../layout/headers/HeaderWithLogo';
 import Footer from '../layout/Footer';
 
 const CsvUpload = () => {
@@ -179,7 +179,7 @@ const CsvUpload = () => {
 
   return (
     <>
-      <Header shouldRenderSearchLink={false} />
+      <Header />
       <ToastContainer hideProgressBar={true} theme="colored" />
       <Breadcrumb />
       <div className="bg-themeColor h-[90vh]">
@@ -216,7 +216,7 @@ const CsvUpload = () => {
         </div>
         <DisplayCSV />
         <div className="hidden md:block mt-9">
-          <Footer year={2023} />
+          <Footer />
         </div>
       </div>
     </>
