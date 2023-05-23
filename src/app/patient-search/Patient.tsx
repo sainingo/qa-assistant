@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import DisplayPatientResult from './DisplayPatientResult';
-import Pagination from './Pagination';
+import Pagination from '../../components/pagination/Pagination';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { IoFilterSharp } from 'react-icons/io5';
 import { searchPatient } from './PatientSearch.resource';
-import Header from '../layout/Header';
+import HeaderWithLogo from '../../components/layout/headers/HeaderWithLogo';
+import { Patient } from '../types/Patient';
 
 const PatientSearch = () => {
   // const [patientInfo, setPatientInfo] = useState<any>([])
@@ -13,11 +14,11 @@ const PatientSearch = () => {
   const [searchParams, setSearchParams] = useState<string>('');
   const [Loading, isLoading] = useState(false);
   const [isTrue, setIsTrue] = useState<boolean>(false);
-  const [searchedPatientsResult, setSearchedPatientsResult] = useState<[]>([]);
+  const [patientResults, setPatientResults] = useState<Patient[]>([]);
 
   const indexOfLastPatient = currentPage * patientsPerPage;
   const indexOfFirstPatients = indexOfLastPatient - patientsPerPage;
-  const currentPatients = searchedPatientsResult.slice(indexOfFirstPatients, indexOfLastPatient);
+  const currentPatients = patientResults.slice(indexOfFirstPatients, indexOfLastPatient);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -27,7 +28,7 @@ const PatientSearch = () => {
       const result = await searchPatient(searchParams);
       setSearchParams('');
       isLoading(false);
-      setSearchedPatientsResult(result);
+      setPatientResults(result);
     }
   };
 
@@ -37,7 +38,7 @@ const PatientSearch = () => {
 
   return (
     <>
-      <Header shouldRenderSearchLink={false} />
+      <HeaderWithLogo />
       <div className="bg-themeColor overflow-y-auto h-screen pt-10">
         <div className="w-[80%] mx-auto">
           <div className="w-[90%] mx-auto">
@@ -78,20 +79,20 @@ const PatientSearch = () => {
             </div>
           ) : (
             <>
-              {searchedPatientsResult && searchedPatientsResult.length < 1 ? (
+              {patientResults && patientResults.length < 1 ? (
                 <p className="text-lg ml-8">Search for a patient here</p>
               ) : (
                 <div>
                   <>
                     <DisplayPatientResult
-                      setSearchedPatientsResult={setSearchedPatientsResult}
-                      searchedPatientsResult={currentPatients}
+                      patients={currentPatients}
+                      // setPatientResults={setPatientResults(currentPatients)}
                       isTrue={isTrue}
                     />
                     {patientsPerPage > 5 && (
                       <Pagination
                         patientsPerPage={patientsPerPage}
-                        totalPatients={searchedPatientsResult.length}
+                        totalPatients={patientResults.length}
                         paginate={paginate}
                       />
                     )}

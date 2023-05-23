@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { AiOutlineClose } from 'react-icons/ai';
-import Pagination from '../patientSearch/Pagination';
 import Modal from 'react-modal';
 
 import { getCsvFiles, deleteCsvFile, syncCsvFile, getErrorLogs } from './csv.resource';
 import { ToastContainer, toast } from 'react-toastify';
 import swal from 'sweetalert';
 import storage from '../../app/localStorage';
+import Pagination from '../pagination/Pagination';
 
 const customStyles = {
   content: {
