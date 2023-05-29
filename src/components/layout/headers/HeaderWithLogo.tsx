@@ -35,7 +35,7 @@ const HeaderWithLogo = () => {
         <nav className="hidden md:block md:mr-12">
           <ul className="md:flex items-center gap-10">
             <li className="text-sm">
-              Logged in as{' '}
+              Logged in as {' '}
               <span className="uppercase">
                 <strong>{user && user.display}</strong>
               </span>

@@ -26,7 +26,7 @@ export const mappingOrders = async (results: []) => {
   return orders;
 };
 
-export const fetchActiveOrders = async (uuid: any) => {
+export const fetchActiveOrders = async (uuid: string | undefined) => {
   const response = await fetch(`/ws/rest/v1/order?patient=${uuid}&v=full`);
   const data = await response.json();
   const { results } = data;
@@ -36,7 +36,7 @@ export const fetchActiveOrders = async (uuid: any) => {
   }
 };
 
-export const fetchVoidedOrders = async (uuid: any) => {
+export const fetchVoidedOrders = async (uuid: string | undefined) => {
   const response = await fetch(
     `/ws/rest/v1/order?patient=${uuid}&v=custom:(uuid,orderNumber,voided,concept,dateActivated,orderer,urgency)&includeVoided=true`,
   );
@@ -54,7 +54,7 @@ export function getUser() {
   return user;
 }
 
-export const gettingPatientName = async (id: any) => {
+export const gettingPatientName = async (id: string | undefined) => {
   const response = await fetch(`/ws/rest/v1/patient/${id}`);
   const data = await response.json();
   const patientName = data?.person?.display;

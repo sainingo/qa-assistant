@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
 import storage from '../../app/localStorage';
 import { FaPlus } from 'react-icons/fa';
-import Header from '../layout/Header';
+import Header from '../layout/headers/HeaderWithLogo';
 import Footer from '../layout/Footer';
 import { useNavigate } from 'react-router-dom';
 import { queuePatients, setReportingMonth } from './AddPatients.resource';
@@ -93,7 +93,7 @@ const AddPatientIdentifier = () => {
   };
   return (
     <>
-      <Header shouldRenderSearchLink={false} />
+      <Header />
       <div className="grid gap-x-4 grid-cols-1 lg:grid-cols-2 justify-center w-11/12 mx-auto ">
         <div className="pl-10 md:px-32 lg:pl-10 xl:pl-24 2xl:pl-60 mt-10 shadow-lg pb-4">
           <div className="flex space-x-4 pt-2">
@@ -183,7 +183,7 @@ const AddPatientIdentifier = () => {
           Back to patient list
         </button>
       </div>
-      <Footer year={2023} />
+      <Footer />
     </>
   );
 };

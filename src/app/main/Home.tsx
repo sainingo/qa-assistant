@@ -1,7 +1,7 @@
 import { FaFlask, FaSearch, FaSync } from 'react-icons/fa';
-import SimpleMenuCard from '../cards/SimpleMenuCard';
-import Header from './Header';
-import Footer from './Footer';
+import SimpleMenuCard from '../../components/cards/SimpleMenuCard';
+import Footer from '../../components/layout/Footer';
+import HeaderWithLogo from '../../components/layout/headers/HeaderWithLogo';
 
 const Home = () => {
   const homeMenuItems = [
@@ -27,7 +27,7 @@ const Home = () => {
 
   return (
     <>
-      <Header shouldRenderSearchLink={false} />
+      <HeaderWithLogo />
       <div className="flex justify-center">
         <div className="max-w-screen-lg p-20 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {homeMenuItems.map((card) => (
@@ -41,7 +41,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-      <Footer year={2023} />
+      <Footer />
     </>
   );
 };

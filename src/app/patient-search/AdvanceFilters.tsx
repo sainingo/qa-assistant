@@ -1,40 +1,37 @@
 import React, { useState } from 'react';
+import { Patient } from '../types/Patient';
 
-type FunctionProps = {
+type AdvanceFilterProps = {
   // eslint-disable-next-line no-unused-vars
-  handleFilter: (filteredPatients: object[]) => any;
-  searchedPatientsResult: [];
+  handleFilter: (filteredPatients: Patient[]) => void;
+  patients: Patient[];
 };
 
-const AdvanceFilters: React.FC<FunctionProps> = ({ handleFilter, searchedPatientsResult }) => {
+const AdvanceFilters: React.FC<AdvanceFilterProps> = ({ handleFilter, patients }) => {
   const [selectedGender, setSelectedGender] = useState('M');
   const [selectedAgeBracket, setSelectedAgeBracket] = useState('0-18');
 
-  const handleAgeBracket = () => {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    let ageBracket: Object[];
+  const handleAgeBracket = (): Patient[] | undefined => {
     if (selectedAgeBracket) {
       if (selectedAgeBracket === '0-18') {
-        ageBracket = searchedPatientsResult.filter((item: any = {}) => item?.person.age <= 18);
-        return ageBracket;
+        return patients.filter((item: Patient) => item.person.age <= 18);
       }
 
       if (selectedAgeBracket === '18-36') {
-        ageBracket = searchedPatientsResult.filter((item: any = {}) => item?.person.age > 18 && item?.person.age <= 36);
-        return ageBracket;
+        return patients.filter((item: Patient) => item.person.age > 18 && item.person.age <= 36);
       }
 
       if (selectedAgeBracket === '36 +') {
-        ageBracket = searchedPatientsResult.filter((item: any = {}) => item?.person.age > 36);
-        return ageBracket;
+        return patients.filter((item: Patient) => item.person.age > 36);
       }
     }
-    // return ageBracket;
+
+    return undefined;
   };
 
   const handleGender = () => {
     if (selectedGender) {
-      const gender = searchedPatientsResult.filter((item: any = {}) => item?.person.gender === selectedGender);
+      const gender = patients.filter((patient: Patient) => patient?.person.gender === selectedGender);
       return gender;
     }
   };
@@ -43,7 +40,7 @@ const AdvanceFilters: React.FC<FunctionProps> = ({ handleFilter, searchedPatient
     const ageBracket = handleAgeBracket() ?? [];
     const gender = handleGender() ?? [];
 
-    const filteredData: object[] = ageBracket.filter((entry) => gender.includes(entry as never));
+    const filteredData: Patient[] = ageBracket.filter((entry) => gender.includes(entry));
     if (filteredData) {
       handleFilter(filteredData);
     } else {

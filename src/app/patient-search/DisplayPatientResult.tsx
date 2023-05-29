@@ -1,45 +1,45 @@
 import { useNavigate } from 'react-router-dom';
 import AdvanceFilters from './AdvanceFilters';
+import { Patient } from '../types/Patient';
 import { useContext } from 'react';
-import { AppContext } from '../../context/AppContext';
+import { GlobalContext } from '../GlobalContext';
 
 interface SearchPatientProps {
-  searchedPatientsResult: any;
+  patients: Patient[];
   isTrue: boolean;
-  // eslint-disable-next-line no-unused-vars
-  setSearchedPatientsResult: (searchedPatientsResult: any) => void;
 }
 
-const DisplayPatientResult: React.FC<SearchPatientProps> = ({
-  searchedPatientsResult,
-  setSearchedPatientsResult,
-  isTrue,
-}: SearchPatientProps) => {
-  const { currentPatient } = useContext(AppContext);
-
+const DisplayPatientResult: React.FC<SearchPatientProps> = ({ patients, isTrue }: SearchPatientProps) => {
+  const { setCurrentPatient } = useContext(GlobalContext);
   const navigate = useNavigate();
 
-  const handleRedirection = (id: number) => {
-    currentPatient.length = 0;
-    // eslint-disable-next-line @typescript-eslint/ban-types, no-empty-pattern
-    const result: Object[] = ([] = searchedPatientsResult.filter((data: any) => data.uuid === id));
-    currentPatient.push(result);
-    navigate(`/patientInfo/${id}`);
+  const getSelectedPatient = (uuid: string): Patient => {
+    const patient = patients.find((patient) => patient.uuid === uuid);
+    if (patient) {
+      return patient;
+    } else {
+      return {} as Patient;
+    }
   };
 
-  const handleFilter = (filteredPatients: object[]) => {
+  const handleRedirection = (uuid: string) => {
+    setCurrentPatient(getSelectedPatient(uuid));
+    navigate(`/patient-dashboard/${uuid}`);
+  };
+
+  const handleFilter = (filteredPatients: Patient[]): void => {
     if (filteredPatients) {
-      setSearchedPatientsResult(filteredPatients);
+      patients.push(...filteredPatients);
     }
   };
 
   return (
     <>
-      {searchedPatientsResult && (
+      {patients && (
         <>
-          {isTrue && <AdvanceFilters searchedPatientsResult={searchedPatientsResult} handleFilter={handleFilter} />}
+          {isTrue && <AdvanceFilters patients={patients} handleFilter={handleFilter} />}
           <p className="ml-32 mb-2 mt-4">
-            <strong>{searchedPatientsResult.length}</strong> Patients found
+            <strong>{patients.length}</strong> Patients found
           </p>
           <div className="md:ml-32 relative overflow-x-auto shadow-md sm:rounded-lg md:w-[90%] md:mx-auto mt-8">
             <table className=" lg:w-full mx-auto text-sm text-left text-gray-500">
@@ -63,19 +63,19 @@ const DisplayPatientResult: React.FC<SearchPatientProps> = ({
                 </tr>
               </thead>
               <tbody>
-                {searchedPatientsResult.map((item: any = {}, index: number) => (
+                {patients.map((patient: Patient, index: number) => (
                   <tr
-                    onClick={() => handleRedirection(item.person.uuid)}
+                    onClick={() => handleRedirection(patient?.person.uuid)}
                     className="bg-white border-b hover:bg-blue-400 hover:text-white hover:cursor-pointer"
                     key={index}
                   >
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                       {index + 1}
                     </th>
-                    <td className="px-6 py-4">{item?.identifiers[0]?.display}</td>
-                    <td className="px-6 py-4">{item?.person?.display}</td>
-                    <td className="px-6 py-4">{item?.person?.gender}</td>
-                    <td className="px-6 py-4">{item?.person?.age}</td>
+                    <td className="px-6 py-4">{patient?.identifiers[0]?.display}</td>
+                    <td className="px-6 py-4">{patient?.person?.display}</td>
+                    <td className="px-6 py-4">{patient?.person?.gender}</td>
+                    <td className="px-6 py-4">{patient?.person?.age}</td>
                   </tr>
                 ))}
               </tbody>

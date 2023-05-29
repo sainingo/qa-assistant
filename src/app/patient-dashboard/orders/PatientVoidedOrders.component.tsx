@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ClipLoader } from 'react-spinners';
-import Pagination from '../patientSearch/Pagination';
-import { Order } from './Orders';
-import { fetchVoidedOrders, gettingPatientName } from './Order.resource';
+import { Order } from './PatientOrder.model';
+import { fetchVoidedOrders, gettingPatientName } from './PatientOrder.resource';
 import { useParams } from 'react-router-dom';
-import { newVoidOrders } from './ActiveOrders';
+import { newVoidOrders } from './PatientActiveOrders.component';
+import Pagination from '../../../components/pagination/Pagination';
 
-function VoidedOrders() {
+const PatientVoidedOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [patientName, setPatientName] = useState('');
   const [Loading, isLoading] = useState(false);
@@ -19,17 +19,16 @@ function VoidedOrders() {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const routeParams = useParams();
-  const { id } = routeParams;
+  const { uuid } = useParams();
 
   useEffect(() => {
     isLoading(true);
 
     const fetchingResources = async () => {
-      const patient = await gettingPatientName(id);
+      const patient = await gettingPatientName(uuid);
       setPatientName(patient);
 
-      const fetchedOrders = await fetchVoidedOrders(id);
+      const fetchedOrders = await fetchVoidedOrders(uuid);
       fetchedOrders ? setOrders(fetchedOrders) : setOrders([]);
       isLoading(false);
 
@@ -51,7 +50,7 @@ function VoidedOrders() {
           <ClipLoader size={50} color="blue" />
         </div>
       ) : (
-        <div className="w-full h-screen p-8 bg-slate-100 overflow-y-hidden overflow-x-hidden">
+        <div className="w-full h-screen overflow-y-auto overflow-x-auto">
           {orders?.length > 0 ? (
             <>
               <div className="ml-[15%] ">
@@ -110,6 +109,6 @@ function VoidedOrders() {
       )}
     </>
   );
-}
+};
 
-export default VoidedOrders;
+export default PatientVoidedOrders;
