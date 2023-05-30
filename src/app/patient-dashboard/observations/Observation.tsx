@@ -13,18 +13,15 @@ const ObservationComponent = () => {
   const [obs, setObs] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [dataPerPage] = useState<number>(3);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState<number>(10);
-
   const indexOfLastPatient = currentPage * dataPerPage;
   const indexOfFirstPatients = indexOfLastPatient - dataPerPage;
   const currentData = obs?.slice(indexOfFirstPatients, indexOfLastPatient);
-
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
     setPageSize(pageSize + dataPerPage);
   };
-
   useEffect(() => {
     if (uuid) {
       getPatientObservations(uuid, (currentPage - 1) * dataPerPage, pageSize)
@@ -38,16 +35,12 @@ const ObservationComponent = () => {
         });
     }
   }, [uuid, currentPage, dataPerPage, pageSize]);
-
-
   const userInfo = obs[0]?.person?.display;
-
   let user_name = '';
   if (userInfo) {
     const parts = userInfo?.split('-');
-    user_name = parts[2]
+    user_name = parts[2];
   }
-
   const handleObsDelete = async (id: string) => {
     swal({
       title: 'Are you sure?',
@@ -67,13 +60,9 @@ const ObservationComponent = () => {
       }
     });
   };
-
-  if(!loading) {
-    return (
-      <p className='ml-[4%] text-xl font-bold'>Loading....</p>
-    )
+  if (!loading) {
+    return <p className="ml-[4%] text-xl font-bold">Loading....</p>;
   }
-
   return (
     <>
       <PatientBanner />
@@ -132,7 +121,6 @@ const ObservationComponent = () => {
     </>
   );
 };
-
 const Observation = () => {
   return (
     <>
@@ -149,5 +137,4 @@ const Observation = () => {
     </>
   );
 };
-
 export default Observation;
