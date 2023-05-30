@@ -14,15 +14,15 @@ const Header: React.FC = () => {
     <header className="p-4 bg-white shadow">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-semibold">QA Assistant Tool</h1>
-        <div className="flex item-right">
-          Logged in as{' '}
-          <span className="bold">
-            <strong>{user && user.display}</strong>
+        <div className="mr-4">
+          Logged in as {' '}
+          <span className="bold pr-8">
+            <strong> {user && user.display.toUpperCase()}</strong>
           </span>
-        </div>
-        <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onClick={handleSignOut}>
+          <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onClick={handleSignOut}>
           Sign Out
         </button>
+        </div>
       </div>
     </header>
   );

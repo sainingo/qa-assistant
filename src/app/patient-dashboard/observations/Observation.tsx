@@ -13,49 +13,34 @@ const ObservationComponent = () => {
   const [obs, setObs] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [dataPerPage] = useState<number>(3);
-
+  const [loading, setLoading] = useState(false);
+  const [pageSize, setPageSize] = useState<number>(10);
   const indexOfLastPatient = currentPage * dataPerPage;
   const indexOfFirstPatients = indexOfLastPatient - dataPerPage;
   const currentData = obs?.slice(indexOfFirstPatients, indexOfLastPatient);
-
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    setPageSize(pageSize + dataPerPage);
+  };
   useEffect(() => {
     if (uuid) {
-      getPatientObservations(uuid)
-        .then((data) => {
-          setObs(data);
+      getPatientObservations(uuid, (currentPage - 1) * dataPerPage, pageSize)
+        .then(({ results }) => {
+          setObs(results);
+          setLoading(true);
         })
         .catch((error) => {
           console.log(error);
           swal('Error', 'An error occurred while fetching observations', error);
         });
     }
-  }, [uuid]);
-
-  // useEffect(() => {
-  //   const getObs = async () => {
-  //     const obsResult = await queryObservation(uuid);
-  //     if (obsResult?.status === 500) {
-  //       swal('Error', 'An error occurred while fetching observations', 'error');
-  //     }
-  //     if (obsResult) {
-  //       const { results } = await obsResult.json();
-  //       setObs(results);
-  //     }
-  //   };
-  //   getObs();
-  // }, [id]);
-
+  }, [uuid, currentPage, dataPerPage, pageSize]);
   const userInfo = obs[0]?.person?.display;
-
   let user_name = '';
-
   if (userInfo) {
     const parts = userInfo?.split('-');
-    user_name = parts[1].trim().split(' ').slice(1).join(' ');
+    user_name = parts[2];
   }
-
   const handleObsDelete = async (id: string) => {
     swal({
       title: 'Are you sure?',
@@ -75,11 +60,13 @@ const ObservationComponent = () => {
       }
     });
   };
-
+  if (!loading) {
+    return <p className="ml-[4%] text-xl font-bold">Loading....</p>;
+  }
   return (
     <>
       <PatientBanner />
-      <div className="mt-[2%] sm:ml-[30%] md:ml-[15%] sm:w-[60%] md:w-[75%]">
+      <div className="mt-[2%]  sm:w-[60%] md:w-[90%]">
         <h1 className="text-xl md:text-2xl text-center font-bold underline">Obs for {user_name}</h1>
         <div className="p-4 mt-6 w-[80%] mx-auto">
           <span className="text-lg font-bold">Total Obs: {obs.length}</span>
@@ -134,7 +121,6 @@ const ObservationComponent = () => {
     </>
   );
 };
-
 const Observation = () => {
   return (
     <>
@@ -151,5 +137,4 @@ const Observation = () => {
     </>
   );
 };
-
 export default Observation;

@@ -1,6 +1,6 @@
-export const getPatientObservations = async (uuid: string): Promise<any> => {
+export const getPatientObservations = async (uuid: string, startIndex: number, pageSize: number): Promise<any> => {
   try {
-    const response = await fetch(`/ws/rest/v1/obs?patient=${uuid}&v=default`, {
+    const response = await fetch(`/ws/rest/v1/obs?patient=${uuid}&v=default&startIndex=${startIndex}&limit=${pageSize}`, {
       headers: {
         Accept: 'application/json',
       },
