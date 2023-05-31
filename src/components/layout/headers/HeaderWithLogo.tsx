@@ -1,26 +1,16 @@
 import logo from '../../../public/ampath-logo.png';
-import { Link, useNavigate } from 'react-router-dom';
-import { MdLogout } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import storage from '../../../app/localStorage';
+import { clearSession } from '../../../app/Session';
 
 const HeaderWithLogo = () => {
-  const navigate = useNavigate();
-
   const { user } = storage.loadData();
-  const handleLogout = async () => {
-    try {
-      await fetch('/ws/rest/v1/session', {
-        method: 'DELETE',
-      }).then(() => {
-        localStorage.removeItem('userInformation');
-        localStorage.removeItem('authenticated');
-        navigate('/login');
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSignOut = () => {
+    console.log('signing out');
+    clearSession();
   };
+
   return (
     <div className="">
       <header className="bg-white shadow-md p-2 flex justify-between items-center">
@@ -35,14 +25,15 @@ const HeaderWithLogo = () => {
         <nav className="hidden md:block md:mr-12">
           <ul className="md:flex items-center gap-10">
             <li className="text-sm">
-              Logged in as {' '}
+              Logged in as{' '}
               <span className="uppercase">
                 <strong>{user && user.display}</strong>
               </span>
             </li>
             <li className="text-lg flex gap-2 items-center hover:shadow-lg hover:bg-slate-300 p-2 rounded-sm cursor-pointer">
-              <MdLogout onClick={handleLogout} />
-              Log out
+              <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onClick={handleSignOut}>
+                Sign Out
+              </button>
             </li>
           </ul>
         </nav>

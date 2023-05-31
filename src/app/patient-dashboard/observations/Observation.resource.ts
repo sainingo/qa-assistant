@@ -1,11 +1,15 @@
 export const getPatientObservations = async (uuid: string, startIndex: number, pageSize: number): Promise<any> => {
   try {
-    const response = await fetch(`/ws/rest/v1/obs?patient=${uuid}&v=default&startIndex=${startIndex}&limit=${pageSize}`, {
-      headers: {
-        Accept: 'application/json',
+    const response = await fetch(
+      `/ws/rest/v1/obs?patient=${uuid}&v=default&startIndex=${startIndex}&limit=${pageSize}`,
+      {
+        headers: {
+          Accept: 'application/json',
+        },
       },
-    });
+    );
     const data = await response.json();
+    console.log('data', data);
     return data;
   } catch (error) {
     console.log('err', error);
