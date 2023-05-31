@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Patient } from '../../types/Patient';
 import { formatDate } from '../../utils/DateUtil';
-import Footer from '../layout/Footer';
-import Header from '../layout/headers/HeaderWithLogo';
+import Footer from '../../components/layout/Footer';
+import Header from '../../components/layout/headers/HeaderWithLogo';
 import { fetchMoh731SyncQueue, freezeProcessedPatients, processQueuedPatients } from './Moh731Sync.resource';
-import storage from '../../app/localStorage';
+import storage from '../localStorage';
 
 interface searchProps {
   handleSearch: React.ChangeEventHandler<HTMLInputElement>;

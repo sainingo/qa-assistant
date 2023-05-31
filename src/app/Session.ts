@@ -5,7 +5,6 @@ export const getSession = async (): Promise<boolean> => {
   });
 
   const userInfo = await response.json();
-  console.log('userInfo', userInfo);
   const { authenticated } = userInfo;
   return authenticated;
 };
@@ -17,7 +16,6 @@ export const clearSession = async () => {
       Authorization: 'Basic ' + localStorage.getItem('auth-token'),
     },
   }).then((data) => {
-    console.log('data', data);
     if (data?.status === 204 && data?.ok === true) {
       localStorage.removeItem('userInformation');
       localStorage.removeItem('authenticated');

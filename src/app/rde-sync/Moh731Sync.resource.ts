@@ -1,4 +1,4 @@
-import storage from '../../app/localStorage';
+import storage from '../localStorage';
 import { Patient } from '../../types/Patient';
 import { ProcessQueuePayload } from '../../types/Payloads';
 

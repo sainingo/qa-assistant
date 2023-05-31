@@ -6,8 +6,8 @@ import Modal from 'react-modal';
 import { getCsvFiles, deleteCsvFile, syncCsvFile, getErrorLogs } from './csv.resource';
 import { ToastContainer, toast } from 'react-toastify';
 import swal from 'sweetalert';
-import storage from '../../app/localStorage';
-import Pagination from '../pagination/Pagination';
+import storage from '../localStorage';
+import Pagination from '../../components/pagination/Pagination';
 
 const customStyles = {
   content: {

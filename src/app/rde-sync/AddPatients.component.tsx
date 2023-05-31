@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
-import storage from '../../app/localStorage';
+import storage from '../localStorage';
 import { FaPlus } from 'react-icons/fa';
-import Header from '../layout/headers/HeaderWithLogo';
-import Footer from '../layout/Footer';
+import Header from '../../components/layout/headers/HeaderWithLogo';
+import Footer from '../../components/layout/Footer';
 import { useNavigate } from 'react-router-dom';
 import { queuePatients, setReportingMonth } from './AddPatients.resource';
-import ErrorToast from '../toasts/ErrorToast';
-import SuccessToast from '../toasts/SuccessToast';
+import ErrorToast from '../../components/toasts/ErrorToast';
+import SuccessToast from '../../components/toasts/SuccessToast';
 
 const AddPatientIdentifier = () => {
   const [patientIdentifier, setPatientIdentifier] = useState({

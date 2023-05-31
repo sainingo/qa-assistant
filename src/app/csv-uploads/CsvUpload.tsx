@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { CsvUploadData, uploadCsvFile } from './csv.resource';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import storage from '../../app/localStorage';
+import storage from '../localStorage';
 import DisplayCSV from './DisplayCSV';
-import Header from '../layout/headers/HeaderWithLogo';
-import Footer from '../layout/Footer';
+import Header from '../../components/layout/headers/HeaderWithLogo';
+import Footer from '../../components/layout/Footer';
 
 const CsvUpload = () => {
   const [csvFile, setCsvFile] = useState(new File([], ''));
