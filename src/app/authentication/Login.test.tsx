@@ -1,7 +1,7 @@
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import Login from './Login';
 import { beforeEach, describe, afterEach, it, expect, beforeAll, afterAll } from 'vitest';
-import AuthenticationResource from './AuthenticationResource';
+import { signIn } from './authentication.resource';
 import { act } from 'react-dom/test-utils';
 import { handlers } from '../../../tests/handlers/LoginHandler.mock';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -10,9 +10,9 @@ import { setupServer } from 'msw/node';
 // setup the mock server handler
 const server = setupServer(...handlers);
 
-let userNameField: any;
-let passwordField: any;
-let loginButton: any;
+let userNameField: HTMLElement;
+let passwordField: HTMLElement;
+let loginButton: HTMLElement;
 const testURL = 'https://dev3.openmrs.org/openmrs/ws/rest/v1/session';
 const testUser = {
   username: 'Admin',
@@ -60,9 +60,9 @@ describe('Login', () => {
   it('Should display an error message when form inputs are empty ', async () => {
     await act(async () => {
       const nullFormError = 'Please fill in the form';
-      const errorMessage1 = await AuthenticationResource('', '');
-      const errorMessage2 = await AuthenticationResource(testUser.username, '');
-      const errorMessage3 = await AuthenticationResource('', testUser.password);
+      const errorMessage1 = await signIn('', '');
+      const errorMessage2 = await signIn(testUser.username, '');
+      const errorMessage3 = await signIn('', testUser.password);
       expect(errorMessage1).toBe(nullFormError);
       expect(errorMessage2).toBe(nullFormError);
       expect(errorMessage3).toBe(nullFormError);

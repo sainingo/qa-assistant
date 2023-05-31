@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Logo from '../../public/ampath-logo.png';
-import AuthenticationResource from './AuthenticationResource';
-import ErrorAlert from '../alerts/ErrorAlert';
+import ErrorAlert from '../../components/alerts/ErrorAlert';
+import { signIn } from './authentication.resource';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     setIsLoading(true);
-    const result = await AuthenticationResource(username, password);
+    const result = await signIn(username, password);
     if (result) {
       setIsLoading(false);
       setError(result);
@@ -27,7 +27,7 @@ const Login = () => {
     }
   };
 
-  const onChange = (e: { target: { name: any; value: any } }) => {
+  const onChange = (e: { target: { name: string; value: string } }) => {
     SetFormData({ ...formdata, [e.target.name]: e.target.value });
   };
 
