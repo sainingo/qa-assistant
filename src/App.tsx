@@ -6,14 +6,23 @@ import Home from './app/main/Home';
 // import PatientInformation from './app/patient-dashboard/patient-info/PatientInformation';
 // import Orders from './components/Orders/Orders.component';
 // import Observation from './components/observations/Observation';
-import Login from './components/authentication/Login';
+import Login from './app/authentication/Login';
 import PatientInfo from './app/patient-dashboard/info/PatientInfo';
 import PatientSearch from './app/patient-search/Patient';
 import PatientOrders from './app/patient-dashboard/orders/PatientOrders.component';
 import { AppContextProvider } from './app/AppContextProvider';
 import Observation from './app/patient-dashboard/observations/Observation';
+import { useEffect } from 'react';
+import { getSession } from './app/Session';
 
 const App = () => {
+  useEffect(() => {
+    const session = getSession();
+    if (!session) {
+      window.location.href = '/login';
+    }
+  }, []);
+
   return (
     <AppContextProvider>
       <Router>
