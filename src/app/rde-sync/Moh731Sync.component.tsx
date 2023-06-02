@@ -4,8 +4,15 @@ import { Patient } from '../../types/Patient';
 import { formatDate } from '../../utils/DateUtil';
 import Footer from '../../components/layout/Footer';
 import Header from '../../components/layout/headers/HeaderWithLogo';
-import { fetchMoh731SyncQueue, freezeProcessedPatients, processQueuedPatients } from './Moh731Sync.resource';
+import {
+  fetchMoh731SyncQueue,
+  formatDateToLastDayOfMonth,
+  freezeProcessedPatients,
+  processQueuedPatients,
+} from './Moh731Sync.resource';
 import storage from '../localStorage';
+import CalendarComponent from '../../components/calendar/Calendar';
+import { format, parseISO } from 'date-fns';
 
 interface searchProps {
   handleSearch: React.ChangeEventHandler<HTMLInputElement>;
@@ -117,37 +124,12 @@ const Breadcrumb = () => {
   );
 };
 
-interface calendarProps {
-  selectedMonth: string;
-  // eslint-disable-next-line no-unused-vars
-  handleMonthChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-const Calendar: React.FC<calendarProps> = ({ selectedMonth, handleMonthChange }: calendarProps) => {
-  return (
-    <div className="flex items-center mt-2 mb-3 space-x-4">
-      <label htmlFor="start" className="mb-2 font-bold text-gray-700">
-        Reporting month:
-      </label>
-      <input
-        type="month"
-        id="start"
-        name="start"
-        className="px-3 py-2 border border-gray-400 rounded-lg"
-        min="2020-01"
-        value={selectedMonth}
-        onChange={handleMonthChange}
-      />
-    </div>
-  );
-};
-
 const Moh731SyncQueueComponent = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
   const [searchItem, setSearchItem] = useState('');
   const [frozenRows, setFrozenRows] = useState<number[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState('2020-01');
+  const [selectedMonth, setSelectedMonth] = useState<Date>(new Date(2020, 0)); // January 2020
 
   const navigate = useNavigate();
   const { user } = storage.loadData();
@@ -162,8 +144,10 @@ const Moh731SyncQueueComponent = () => {
     await fetchMoh731SyncQueue(selectedMonth).then(setPatients);
   };
 
-  const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedMonth(event.target.value);
+  const handleMonthChange = (value: Date) => {
+    const formattedDate = format(value, 'yyyy-MM-dd');
+    const parsedDate = parseISO(formattedDate);
+    setSelectedMonth(parsedDate);
   };
 
   const handleAddPatientsClick = () => {
@@ -195,9 +179,10 @@ const Moh731SyncQueueComponent = () => {
   const patientIds = patients.map((patient) => patient.person_id);
 
   const handleProcessAll = async () => {
+    const formattedReportingMonth = formatDateToLastDayOfMonth(selectedMonth);
     const payload = {
       userId: user?.uuid,
-      reportingMonth: selectedMonth,
+      reportingMonth: formattedReportingMonth,
       patientIds: patientIds,
     };
 
@@ -206,9 +191,10 @@ const Moh731SyncQueueComponent = () => {
   };
 
   const handleFreezeAll = async () => {
+    const formattedReportingMonth = formatDateToLastDayOfMonth(selectedMonth);
     const payload = {
       userId: user?.uuid,
-      reportingMonth: selectedMonth,
+      reportingMonth: formattedReportingMonth,
       patientIds: patientIds,
     };
 
@@ -263,7 +249,8 @@ const Moh731SyncQueueComponent = () => {
               </button>
             </div>
           </div>
-          <Calendar selectedMonth={selectedMonth} handleMonthChange={handleMonthChange} />
+          <CalendarComponent selectedMonth={selectedMonth} handleMonthChange={handleMonthChange} />
+
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
