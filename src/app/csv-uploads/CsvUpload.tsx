@@ -10,7 +10,6 @@ import SimpleFooter from '../../components/layout/SimpleFooter';
 
 const CsvUpload = () => {
   const [csvFile, setCsvFile] = useState(new File([], ''));
-  const [fileType, setFileType] = useState('');
   const [reloadState, setReloadState] = useState(false);
 
   const onChangeHandler = (e: any) => {
@@ -38,31 +37,20 @@ const CsvUpload = () => {
             const headers = rows[0].split(',');
             const rowData = rows.slice(1).map((row) => row.split(','));
             const csvData = rowData
-              .filter((row) => row.some((cell) => cell.trim() !== '')) // exclude empty rows
+              // .filter((row) => row.some((cell) => cell.trim() !== '')) // exclude empty rows
               .map((row) =>
                 headers.reduce((obj: { [key: string]: any }, key, i) => {
                   obj[key] = row[i];
                   return obj;
                 }, {}),
               );
-            // Check if the file contains the columns "Lab Viral Load" or "CD4_Count"
-            console.log(headers.includes('"CD4 abs"'));
             let file_type = '';
-            if (headers.includes('Lab Viral Load') && fileType === 'VL') {
+            if (headers.includes('Lab Viral Load')) {
               file_type = 'VL';
-            } else if (headers.includes('"CD4 abs"') && fileType === 'CD4') {
+            } else if (headers.includes('"CD4 abs"')) {
               file_type = 'CD4';
             } else if (!headers.includes('Lab Viral Load') && !headers.includes('"CD4 abs"')) {
-              toast.error('File does not contain the required columns');
-              return reject();
-            } else if (headers.includes('Lab Viral Load') && fileType !== 'VL') {
-              toast.error('File selected is not a CD4 file');
-              return reject();
-            } else if (headers.includes('"CD4 abs"') && fileType !== 'CD4') {
-              toast.error('File selected is not a VL file');
-              return reject();
-            } else if (fileType === '') {
-              toast.error('Please select the file type');
+              toast.error('File is neither a CD4 or VL type');
               return reject();
             } else {
               toast.error('File does not contain the required columns or file type is incorrect');
@@ -92,7 +80,6 @@ const CsvUpload = () => {
         file_type: file_type,
         total_records: numRows,
       };
-      setFileType('');
       const res = await uploadCsvFile(data);
       const response = await res.json();
       console.log(response);
@@ -184,29 +171,17 @@ const CsvUpload = () => {
       <Breadcrumb />
       <div className="bg-themeColor h-[90vh]">
         <div className="relative flex justify-center">
-          <div className="text-white w-[70%] mt-10 md:flex p-4 gap-8 items-center rounded-lg shadow-lg bg-gray-500">
+          <div className="text-white w-[50%] mt-10 md:flex p-4 gap-8 items-center rounded-lg shadow-lg bg-gray-500">
             <div className="flex justify-center">
               <img alt="csv upload" src={csv_image} width={180} />
             </div>
-            <div>
+            <div className='w-full'>
               <div className="py-4">
                 <h2 className="text-2xl text-center md:text-left">Upload CSV</h2>
                 <p className="md:text-lg">Load your data by selecting a CSV file type below</p>
               </div>
               <div className="grid gap-4 md:p-2 md:flex md:items-center md:gap-4">
-                <input type="file" name="file" onChange={onChangeHandler} />
-                <label htmlFor="type" className="px-2 text-md font-semibold">
-                  Choose CSV type:
-                </label>
-                <select
-                  className="p-3 outline-none bg-themeColor text-black"
-                  value={fileType}
-                  onChange={(e) => setFileType(e.target.value)}
-                >
-                  <option value="">file type:</option>
-                  <option value="VL">VL</option>
-                  <option value="CD4">CD4</option>
-                </select>
+                <input className='w-[50%] p-4' type="file" name="file" onChange={onChangeHandler} />
                 <button className="bg-blue-500 p-3 rounded-lg text-white" onClick={onClickCsvUploadHandler}>
                   Upload CSV
                 </button>

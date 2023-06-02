@@ -32,7 +32,7 @@ export const deleteObservation = async (uuid: string) => {
 
 export const getPatientObservationByID = async (id: any) => {
   try {
-    const response = await fetch(`http://0.0.0.0:5080/api/obs/${id}`,
+    const response = await fetch(`/api/obs/${id}`,
     {
       headers: {
         Accept: 'application/json',
