@@ -9,7 +9,6 @@ export const getPatientObservations = async (uuid: string, startIndex: number, p
       },
     );
     const data = await response.json();
-    console.log('data', data);
     return data;
   } catch (error) {
     console.log('err', error);
@@ -30,3 +29,19 @@ export const deleteObservation = async (uuid: string) => {
     console.log('err', error);
   }
 };
+
+export const getPatientObservationByID = async (id: any) => {
+  try {
+    const response = await fetch(`http://0.0.0.0:5080/api/obs/${id}`,
+    {
+      headers: {
+        Accept: 'application/json',
+      },
+    },);
+    const result = await response.json();
+    return result;
+
+  } catch (error) {
+    console.log(error)
+  }
+}

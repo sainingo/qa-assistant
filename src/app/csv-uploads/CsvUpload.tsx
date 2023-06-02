@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import storage from '../localStorage';
 import DisplayCSV from './DisplayCSV';
 import Header from '../../components/layout/headers/HeaderWithLogo';
-import Footer from '../../components/layout/Footer';
+import SimpleFooter from '../../components/layout/SimpleFooter';
 
 const CsvUpload = () => {
   const [csvFile, setCsvFile] = useState(new File([], ''));
@@ -216,7 +216,7 @@ const CsvUpload = () => {
         </div>
         <DisplayCSV />
         <div className="hidden md:block mt-9">
-          <Footer />
+        <SimpleFooter />
         </div>
       </div>
     </>

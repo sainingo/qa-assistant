@@ -32,6 +32,18 @@ const PatientSearch = () => {
     }
   };
 
+  const handleKeyEnter = async (e: any) => {
+    if (e.key === 'Enter') {
+      if (searchParams.trim() && searchParams !== '') {
+        isLoading(true);
+        const result = await searchPatient(searchParams);
+        setSearchParams('');
+        isLoading(false);
+        setPatientResults(result);
+      }
+    }
+  };
+
   const handleOpenFilters = () => {
     setIsTrue(!isTrue);
   };
@@ -49,6 +61,7 @@ const PatientSearch = () => {
                 placeholder="Search patient by name"
                 value={searchParams}
                 onChange={(e) => setSearchParams(e.target.value)}
+                onKeyDown={handleKeyEnter}
               />
               <div className="flex md:gap-11 gap-3 mt-4">
                 <button
