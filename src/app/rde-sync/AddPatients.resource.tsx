@@ -1,27 +1,23 @@
-export const queuePatients = async (requestBody: any) => {
+import { RequestBody } from './Model';
+
+export const queuePatients = async (requestBody: RequestBody) => {
+  const request = JSON.stringify(requestBody);
   const response = await fetch('/api/rde-sync/queue', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: requestBody,
+    body: request,
   });
   return response;
 };
 
-function getLastDayOfMonth(monthIndex: number, year: any) {
-  const lastDay = new Date(year, monthIndex + 1, 0);
-  return lastDay.getDate();
+export function getLastDayOfMonth(month: string) {
+  const year = Number(month.substring(0, 4));
+  const monthNumber = Number(month.substring(5, 7));
+
+  // Calculate the number of days in the month
+  const daysInMonth = new Date(year, monthNumber, 0).getDate();
+
+  return `${year}-${month.substring(5)}-${daysInMonth}`;
 }
-
-export const setReportingMonth = async () => {
-  const selectedMonth = (document.querySelector('.month-dropdown') as HTMLSelectElement).value;
-  const selectedYear = (document.querySelector('.year-dropdown') as HTMLSelectElement).value;
-  const lastDayOfMonth = getLastDayOfMonth(parseInt(selectedMonth) - 1, selectedYear);
-  // //convert date to yyyy/mm/dd
-  const reportingMonth = new Date(Date.UTC(parseInt(selectedYear), parseInt(selectedMonth) - 1, lastDayOfMonth))
-    .toISOString()
-    .split('T')[0];
-
-  return reportingMonth;
-};

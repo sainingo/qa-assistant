@@ -71,8 +71,7 @@ const ObservationComponent = () => {
 
   const handleNext = () => {
     if (currentPage === totalPages) {
-      const newPageSize = pageSize + 50;
-      setPageSize(newPageSize);
+      setPageSize( pageSize + 50);
     } else {
       // Increment current page if not at the last page
       if (currentPage < totalPages) {
@@ -88,7 +87,6 @@ const ObservationComponent = () => {
   const toggleModal = async () => {
     if (searchObsID.trim() && searchObsID !== ' ') {
       const obsSearchResult = await getPatientObservationByID(searchObsID);
-      console.log(obsSearchResult);
       setSearchObsID('');
       setObsData(obsSearchResult);
       setIsOpen(!isOpen);

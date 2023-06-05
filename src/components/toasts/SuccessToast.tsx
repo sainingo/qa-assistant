@@ -2,7 +2,7 @@ import React from 'react';
 
 interface Props {
   message: string;
-  handleOnClick: any;
+  handleOnClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const SuccessToast: React.FC<Props> = ({ message, handleOnClick }) => {
