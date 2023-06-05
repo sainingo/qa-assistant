@@ -84,7 +84,6 @@ const ObservationComponent = () => {
   const toggleModal = async () => {
     if (searchObsID.trim() && searchObsID !== ' ') {
       const obsSearchResult = await getPatientObservationByID(searchObsID);
-      console.log(obsSearchResult);
       setSearchObsID('');
       setObsData(obsSearchResult);
       setIsOpen(!isOpen);
