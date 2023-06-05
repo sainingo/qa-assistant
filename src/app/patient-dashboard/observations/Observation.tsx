@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import swal from 'sweetalert';
 import Header from '../../../components/layout/headers/Header';
 import Sidebar from '../../../components/layout/Sidebar';
-// import Pagination from '../../../components/pagination/Pagination';
 import SimpleFooter from '../../../components/layout/SimpleFooter';
 import PatientBanner from '../banners/PatientBanner';
 import ObsModal from './ObsModal';
@@ -12,17 +11,18 @@ import ObsModal from './ObsModal';
 const ObservationComponent = () => {
   const { uuid } = useParams<{ uuid: string }>();
   const [obs, setObs] = useState<any>([]);
+  const [currentData, setCurrentData] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [dataPerPage] = useState<number>(10);
   const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState<number>(50);
   const indexOfLastPatient = currentPage * dataPerPage;
   const indexOfFirstPatients = indexOfLastPatient - dataPerPage;
-  const currentData = obs?.slice(indexOfFirstPatients, indexOfLastPatient);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [searchObsID, setSearchObsID] = useState<string>('');
   const [obsData, setObsData] = useState();
+  const [selectedEncounter, setSelectedEncounter] = useState('');
 
   useEffect(() => {
     if (uuid) {
@@ -30,6 +30,9 @@ const ObservationComponent = () => {
         .then(({ results }) => {
           setObs(results);
           setLoading(true);
+          if(results) {
+            setCurrentData(results?.slice(indexOfFirstPatients, indexOfLastPatient))
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -101,11 +104,27 @@ const ObservationComponent = () => {
       if (searchObsID.trim() && searchObsID !== ' ') {
         const obsSearchResult = await getPatientObservationByID(searchObsID);
         setSearchObsID('');
-        setObsData(obsSearchResult);
-        setIsOpen(!isOpen);
+        if (obsSearchResult.length > 0) {
+          setObsData(obsSearchResult);
+          setIsOpen(!isOpen);
+        } else {
+          alert('No Result for that Obs ID!!');
+        }
       }
     }
   };
+
+  useEffect(() => {
+    const handleFilteringByEncounter = (encounter: string) => {
+      const filteredObs = obs.filter((ob: any) => {
+        return ob.encounter.display === encounter;
+      });
+      setCurrentData(filteredObs)
+    };
+
+    handleFilteringByEncounter(selectedEncounter);
+  }, [selectedEncounter]);
+
 
   if (!loading) {
     return <p className="ml-[4%] text-xl font-bold">Loading....</p>;
@@ -166,8 +185,17 @@ const ObservationComponent = () => {
                         className="z-10 absolute right-0 bg-gray-100 pl-2 shadow-lg border rounded w-44"
                       >
                         <ul className="p-2" aria-labelledby="dropdownDefaultButton">
-                          <li className="cursor-pointer py-2 px-1 hover:shadow-lg">DRUGPICKUP</li>
-                          <li className="cursor-pointer py-2 px-1 hover:shadow-lg">YOUTHRETURN</li>
+                          {obs
+                            .filter((ob: any, index: number, self: any[]) => {
+                              return index === self.findIndex((o: any) => o.encounter.display === ob.encounter.display);
+                            })
+                            .map((ob: any, idx: number) => (
+                              <li key={idx} >
+                              <button onClick={() => setSelectedEncounter(ob.encounter.display)} className="cursor-pointer py-2 px-1 hover:shadow-lg">
+                                {ob.encounter.display}
+                              </button>
+                              </li>
+                            ))}
                         </ul>
                       </div>
                     )}

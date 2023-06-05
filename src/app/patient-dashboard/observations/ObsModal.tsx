@@ -1,4 +1,5 @@
 import swal from 'sweetalert';
+import { useNavigate } from 'react-router-dom';
 import { deleteObservation } from './Observation.resource';
 
 interface Props {
@@ -7,6 +8,8 @@ interface Props {
   obsData: any;
 }
 const ObsModal = ({ isOpen, closeModal, obsData }: Props) => {
+  const navigate = useNavigate();
+
   const handleCloseModal = () => {
     closeModal();
   };
@@ -25,7 +28,7 @@ const ObsModal = ({ isOpen, closeModal, obsData }: Props) => {
           swal('Poof! Your Observation has been deleted!', {
             icon: 'success',
           });
-          window.location.reload();
+          navigate(-1);
         }
       }
     });
@@ -68,7 +71,7 @@ const ObsModal = ({ isOpen, closeModal, obsData }: Props) => {
               <div className="p-3">
                 <ul className="flex items-center">
                   <li>
-                    <span className="font-bold p-2">Obs Date:</span> {obsData[0].obs_datetime}
+                    <span className="font-bold p-2">Obs Date:</span> {new Date(obsData[0].obs_datetime).toLocaleDateString()}
                   </li>
                   <li>
                     <span className="font-bold p-2">Obs ID:</span> {obsData[0].obs_id}
